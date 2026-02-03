@@ -72,16 +72,6 @@
   display: inline-block;
 }
 
-.footer-col h4::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -5px;
-  width: 40px;
-  height: 2px;
-  background: var(--color-gold);
-}
-
 .links-col ul, .contact-col ul {
   list-style: none;
 }
@@ -90,9 +80,17 @@
   margin-bottom: 0.8rem;
 }
 
-.links-col a:hover {
-  color: var(--color-gold);
-  padding-left: 5px;
+.footer-link{
+  background: 
+      linear-gradient(rgb(217, 165, 33) 0 0) 
+      var(--p, 0) 100% / var(--d, 0) 1px 
+      no-repeat;
+  transition: 0.3s, background-position 0s 0.3s;
+  padding-bottom: 4px;
+}
+.footer-link:hover {
+  --d: 100%;
+  --p: 100%;
 }
 
 .contact-col li {

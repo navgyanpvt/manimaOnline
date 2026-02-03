@@ -1,5 +1,4 @@
 .process-section {
-  padding: var(--section-padding);
   background-color: var(--color-sand);
   position: relative;
 }
@@ -68,7 +67,7 @@
 }
 
 .border-divider {
-  width: 100%;
+  width: 100vw;
   height: 60px;
   background-image: url('../assets/border-pattern.png');
   background-repeat: repeat-x;

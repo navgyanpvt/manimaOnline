@@ -3,7 +3,7 @@ import './Footer.css';
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube } from 'lucide-react';
 import logo from '../assets/logo.png';
 
-const Footer = () => {
+const Footer = ({ onOpenPuja }) => {
     return (
         <footer className="footer">
             <div className="container footer-content">
@@ -25,11 +25,11 @@ const Footer = () => {
                 <div className="footer-col links-col">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="#hero">Home</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#packages">Ritual Packages</a></li>
-                        <li><a href="#faq">FAQs</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a className="footer-link" href="#hero">Home</a></li>
+                        <li><a className="footer-link" href="#about">About Us</a></li>
+                        <li><a className="footer-link" href="#packages">Ritual Packages</a></li>
+                        <li><a className="footer-link" href="#faq">FAQs</a></li>
+                        <li><a className="footer-link" href="#contact">Contact</a></li>
                     </ul>
                 </div>
 
@@ -46,9 +46,13 @@ const Footer = () => {
                             <MapPin size={18} /> <span>Grand Road, Puri, Odisha</span>
                         </li>
                     </ul>
-                    <button className="btn btn-primary footer-btn">
-                        Chat on WhatsApp
+                    <button
+                        className="btn btn-primary footer-btn"
+                        onClick={onOpenPuja}
+                    >
+                        Request Puja Assistance
                     </button>
+
                 </div>
             </div>
             <div className="footer-bottom">
