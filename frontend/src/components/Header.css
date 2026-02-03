@@ -25,10 +25,10 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
 .brand-name {
+  margin-top: 12px;
   font-family: 'Cinzel', serif;
   font-size: 1.8rem;
   font-weight: 700;
@@ -44,7 +44,7 @@
 }
 
 .logo img {
-  height: 48px;
+  height: 68px;
   width: auto;
 }
 

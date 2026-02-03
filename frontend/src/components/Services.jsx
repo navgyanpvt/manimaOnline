@@ -19,7 +19,7 @@ const steps = [
     {
         id: 3,
         icon: <FileCheck size={48} />,
-        title: "Special Puja",
+        title: "Special Puja"
         description: "Get a complete high-quality recording and photos of the ceremony shared directly to your WhatsApp."
     },
     {

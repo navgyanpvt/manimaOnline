@@ -6,13 +6,14 @@ import ProcessFlow from './components/ProcessFlow';
 import ServicePackageDetail from './components/ServicePackageDetail';
 import WhyChooseUs from './components/WhyChooseUs';
 import Footer from './components/Footer';
+import PujaModal from "./components/PujaModal";
 
 function App() {
   const [selectedServiceId, setSelectedServiceId] = useState(null);
+  const [openPujaModal, setOpenPujaModal] = useState(false);
 
   const handleServiceClick = (serviceId) => {
     setSelectedServiceId(serviceId);
-    // Scroll to top
     window.scrollTo(0, 0);
   };
 
@@ -22,23 +23,35 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <Header />
-      {selectedServiceId ? (
-        <ServicePackageDetail 
-          serviceId={selectedServiceId} 
-          onBack={handleBackToServices}
+    <>
+      <div className="app">
+
+        <Header onOpenPuja={() => setOpenPujaModal(true)} />
+
+        {selectedServiceId ? (
+          <ServicePackageDetail
+            serviceId={selectedServiceId}
+            onBack={handleBackToServices}
+          />
+        ) : (
+          <>
+            <Hero />
+            <Services onServiceClick={handleServiceClick} />
+            <ProcessFlow />
+            <WhyChooseUs />
+          </>
+        )}
+
+        <Footer onOpenPuja={() => setOpenPujaModal(true)} />
+
+        {/* GLOBAL MODAL */}
+        <PujaModal
+          isOpen={openPujaModal}
+          onClose={() => setOpenPujaModal(false)}
         />
-      ) : (
-        <>
-          <Hero />
-          <Services onServiceClick={handleServiceClick} />
-          <ProcessFlow />
-          <WhyChooseUs />
-        </>
-      )}
-      <Footer />
-    </div>
+
+      </div>
+    </>
   );
 }
 
