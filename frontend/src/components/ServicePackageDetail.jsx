@@ -4,41 +4,67 @@ import './Packages.css';
 import servicePackageData from '../assets/service-package.json';
 
 const ServicePackageDetail = ({ serviceId, onBack }) => {
+    const [hasChecked, setHasChecked] = useState(false);
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [packages, setPackages] = useState([]);
     const [places, setPlaces] = useState([]);
     const [service, setService] = useState(null);
 
     useEffect(() => {
-        // Find the service from the data
-        const foundService = servicePackageData.services.find(s => s.id === parseInt(serviceId));
-        if (foundService) {
-            setService(foundService);
-            setPlaces(foundService.places);
-            // Set the first place as default
-            if (foundService.places.length > 0) {
-                setSelectedPlace(foundService.places[0].placeId);
-                setPackages(foundService.places[0].packages);
-            }
-        }
-    }, [serviceId]);
+  setHasChecked(false);
+
+  if (serviceId === null || serviceId === undefined) {
+    setService(null);
+    setHasChecked(true);
+    return;
+  }
+
+  const numericId = Number(serviceId);
+
+  const foundService = servicePackageData.services.find(
+    s => s.id === numericId
+  );
+
+  if (!foundService) {
+    setService(null);
+    setHasChecked(true);
+    return;
+  }
+
+  setService(foundService);
+  setPlaces(foundService.places || []);
+
+  if (foundService.places?.length > 0) {
+    setSelectedPlace(foundService.places[0].placeId);
+    setPackages(foundService.places[0].packages || []);
+  }
+
+  setHasChecked(true);
+}, [serviceId]);
+
+
+    // ❌ NO loading for static data
+    if (!service) {
+        return (
+            <div className="container" style={{ padding: "40px", textAlign: "center" }}>
+                <h3>No packages available</h3>
+                <button className="btn btn-secondary" onClick={onBack}>
+                    <ChevronLeft size={18} /> Back to Services
+                </button>
+            </div>
+        );
+    }
 
     const handlePlaceChange = (placeId) => {
         setSelectedPlace(placeId);
         const selectedPlaceData = places.find(p => p.placeId === placeId);
-        if (selectedPlaceData) {
-            setPackages(selectedPlaceData.packages);
-        }
+        setPackages(selectedPlaceData?.packages || []);
     };
-
-    if (!service) {
-        return <div className="container">Loading...</div>;
-    }
 
     return (
         <section id="service-packages" className="packages-section">
             <div className="container">
-                {/* Header with Back Button */}
+
                 <div className="service-header">
                     <button className="back-button" onClick={onBack}>
                         <ChevronLeft size={24} />
@@ -47,37 +73,29 @@ const ServicePackageDetail = ({ serviceId, onBack }) => {
                     <h2 className="section-title">{service.title}</h2>
                 </div>
 
-                {/* Filter Section */}
                 <div className="filter-section">
-                    <div className="filter-group">
-                        <label htmlFor="place-filter" className="filter-label">Select Place:</label>
-                        <select
-                            id="place-filter"
-                            value={selectedPlace || ''}
-                            onChange={(e) => handlePlaceChange(parseInt(e.target.value))}
-                            className="filter-select"
-                        >
-                            {places.map(place => (
-                                <option key={place.placeId} value={place.placeId}>
-                                    {place.placeName}, {place.state}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    <label>Select Place:</label>
+                    <select
+                        value={selectedPlace ?? ''}
+                        onChange={(e) => handlePlaceChange(Number(e.target.value))}
+                    >
+                        {places.map(place => (
+                            <option key={place.placeId} value={place.placeId}>
+                                {place.placeName}, {place.state}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
-                {/* Packages Grid */}
                 <div className="packages-grid">
-                    {packages.map((pkg, index) => (
+                    {packages.map(pkg => (
                         <div key={pkg.id} className={`package-card ${pkg.recommended ? 'recommended' : ''}`}>
                             {pkg.recommended && <div className="tag">Most Popular</div>}
                             <h3>{pkg.title}</h3>
                             <div className="price">₹ {pkg.price.toLocaleString('en-IN')}</div>
-                            <ul className="features">
-                                {pkg.features.map((feature, i) => (
-                                    <li key={i}>
-                                        <Check size={16} className="check-icon" /> {feature}
-                                    </li>
+                            <ul>
+                                {pkg.features.map((f, i) => (
+                                    <li key={i}><Check size={16} /> {f}</li>
                                 ))}
                             </ul>
                             <button className={`btn ${pkg.recommended ? 'btn-primary' : 'btn-secondary'}`}>
@@ -86,6 +104,7 @@ const ServicePackageDetail = ({ serviceId, onBack }) => {
                         </div>
                     ))}
                 </div>
+
             </div>
         </section>
     );

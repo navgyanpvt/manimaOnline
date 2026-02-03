@@ -8,27 +8,32 @@ const steps = [
         id: 1,
         icon: <Calendar size={48} />,
         title: "Pind Daan",
+        type: "PACKAGE",
         description: "Choose from our Basic, Special, or Annual Pinda Daan packages and pick a convenient date."
     },
     {
         id: 2,
         icon: <Video size={48} />,
         title: "Ashthi Visarjan",
-        description: "Our authentic Odia verified pandits perform the ritual at Swargadwar or Baitarani. Live streaming available."
+        type: "PACKAGE",
+        description: "Our authentic Odia verified pandits perform the ritual at Swargadwar or Baitarani."
     },
     {
         id: 3,
         icon: <FileCheck size={48} />,
-        title: "Special Puja"
-        description: "Get a complete high-quality recording and photos of the ceremony shared directly to your WhatsApp."
+        title: "Special Puja",
+        type: "SPECIAL_PUJA",
+        description: "Choose temple-based special pujas for birthday, marriage, anniversary, or promotion."
     },
     {
         id: 4,
         icon: <FileCheck size={48} />,
         title: "Pandit at Service",
-        description: "Get a complete high-quality recording and photos of the ceremony shared directly to your WhatsApp."
+        type: "LEAD_ONLY",
+        description: "Book a verified Odia pandit for rituals at your location."
     }
 ];
+
 
 const Services = ({ onServiceClick }) => {
     return (
@@ -38,10 +43,19 @@ const Services = ({ onServiceClick }) => {
 
                 <div className="steps-container">
                     {steps.map((step, index) => (
-                        <div 
-                            key={index} 
+                        <div
+                            key={index}
                             className="step-card-services clickable-card"
-                            onClick={() => onServiceClick(step.id)}
+                            onClick={() => {
+                                if (step.type === "SPECIAL_PUJA") {
+                                    onServiceClick("SPECIAL_PUJA");
+                                } else if (step.type === "LEAD_ONLY") {
+                                    onServiceClick("PANDIT_SERVICE");
+                                } else {
+                                    onServiceClick(step.id);
+                                }
+                            }}
+
                         >
                             <div className="step-icon-wrapper">
                                 {step.icon}

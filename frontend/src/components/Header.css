@@ -96,7 +96,7 @@
 .bar {
   width: 25px;
   height: 3px;
-  background-color: var(--text-light);
+  background-color: var(--color-red);
   transition: all 0.3s ease;
 }
 

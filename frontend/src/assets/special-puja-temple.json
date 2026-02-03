@@ -1,0 +1,38 @@
+[
+  {
+    "id": "dhableswar",
+    "name": "Dhableswar Mahadev",
+    "location": "Cuttack",
+    "image": "https://images.unsplash.com/photo-1524443169398-9aa1ceab67d5?q=80&w=1148&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "availableFor": ["Birthday", "Marriage", "Anniversary", "Promotion"],
+    "pujas": [
+      "Rudrabhishek",
+      "Maha Mrityunjaya Jap"
+    ],
+    "price": 5100
+  },
+  {
+    "id": "kapilash",
+    "name": "Kapilash Mahadev",
+    "location": "Dhenkanal",
+    "image": "https://images.unsplash.com/photo-1538460120076-604b93a2ce88?q=80&w=1942&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "availableFor": ["Birthday", "Promotion"],
+    "pujas": [
+      "Abhishek Puja",
+      "Shiv Sahasranama"
+    ],
+    "price": 6100
+  },
+  {
+    "id": "harishankar",
+    "name": "Harishankar Temple",
+    "location": "Sambalpur",
+    "image": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "availableFor": ["Marriage", "Anniversary"],
+    "pujas": [
+      "Special Archana",
+      "Shanti Puja"
+    ],
+    "price": 7100
+  }
+]
