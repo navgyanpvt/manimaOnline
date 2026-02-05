@@ -1,38 +1,179 @@
 [
   {
-    "id": "dhableswar",
-    "name": "Dhableswar Mahadev",
-    "location": "Cuttack",
-    "image": "https://images.unsplash.com/photo-1524443169398-9aa1ceab67d5?q=80&w=1148&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "availableFor": ["Birthday", "Marriage", "Anniversary", "Promotion"],
+    "id": "akhandalamani",
+    "name": "Akhandalamani Mahadev",
+    "location": "Bhadrak",
+    "image": "https://ecoheritage.cpreec.org/wp-content/uploads/2024/07/Aradi1-768x475.jpeg",
+    "availableFor": [
+      "Birthday",
+      "Marriage",
+      "Promotion"
+    ],
     "pujas": [
       "Rudrabhishek",
-      "Maha Mrityunjaya Jap"
+      "Lingarchana"
     ],
-    "price": 5100
+    "price": 5500
   },
   {
-    "id": "kapilash",
-    "name": "Kapilash Mahadev",
-    "location": "Dhenkanal",
-    "image": "https://images.unsplash.com/photo-1538460120076-604b93a2ce88?q=80&w=1942&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "availableFor": ["Birthday", "Promotion"],
+    "id": "ladubaba",
+    "name": "Ladu Baba Temple",
+    "location": "Bhubaneswar",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoQe8cwUTzIba5IvV5qpeweiOGwKaaVbU0F-bpk_bYD_yteJi8RT-zOhQ7x3FGAGwE6PggAQy3skv0-CBt2KPN0rNXq9jdhYNvPhMLVYVvj-zkSscjrhcCoiBrLs9H5aeAcFrc3=s1360-w1360-h1020-rw",
+    "availableFor": [
+      "Birthday",
+      "Anniversary"
+    ],
     "pujas": [
       "Abhishek Puja",
-      "Shiv Sahasranama"
+      "Shiva Archana"
     ],
-    "price": 6100
+    "price": 4800
   },
   {
-    "id": "harishankar",
-    "name": "Harishankar Temple",
-    "location": "Sambalpur",
-    "image": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "availableFor": ["Marriage", "Anniversary"],
-    "pujas": [
-      "Special Archana",
-      "Shanti Puja"
+    "id": "maasarala",
+    "name": "Maa Sarala Temple",
+    "location": "Jagatsinghpur",
+    "image": "https://amajagatsinghpur.com/img/sarala1.jpg",
+    "availableFor": [
+      "Marriage",
+      "Anniversary"
     ],
-    "price": 7100
+    "pujas": [
+      "Chandi Patha",
+      "Special Archana"
+    ],
+    "price": 6200
+  },
+  {
+    "id": "budhithakurani",
+    "name": "Maa Budhi Thakurani",
+    "location": "Berhampur",
+    "image": "https://www.berhampurcity.com/wp-content/uploads/2014/08/budhi-thakurani.jpg",
+    "availableFor": [
+      "Birthday",
+      "Promotion"
+    ],
+    "pujas": [
+      "Durga Archana",
+      "Mangala Puja"
+    ],
+    "price": 5300
+  },
+  {
+    "id": "manikeswari",
+    "name": "Maa Manikeswari Temple",
+    "location": "Kalahandi",
+    "image": "https://localdrive.in/wp-content/uploads/2025/08/Manikeswari-Temple-%E2%80%93-The-Shakti-Peetha-of-Kalahandi.webp",
+    "availableFor": [
+      "Marriage"
+    ],
+    "pujas": [
+      "Chandi Homam",
+      "Shakti Puja"
+    ],
+    "price": 7500
+  },
+  {
+    "id": "ghanteswari",
+    "name": "Maa Ghanteswari Temple",
+    "location": "Bargarh",
+    "image": "https://imgs.etvbharat.com/etvbharat/prod-images/17-06-2025/1200-675-24395435-154-24395435-1750148426675.jpg",
+    "availableFor": [
+      "Anniversary",
+      "Promotion"
+    ],
+    "pujas": [
+      "Ghanta Archana",
+      "Special Puja"
+    ],
+    "price": 5000
+  },
+  {
+    "id": "taratarini",
+    "name": "Maa Tara Tarini Temple",
+    "location": "Ganjam",
+    "image": "https://cdn1.tripoto.com/media/filter/nl/img/2380291/Image/1698486105_taratarini_temple_drone_view.jpg.webp",
+    "availableFor": [
+      "Marriage",
+      "Birthday"
+    ],
+    "pujas": [
+      "Tara Homam",
+      "Shakti Puja"
+    ],
+    "price": 6800
+  },
+  {
+    "id": "ugratara",
+    "name": "Maa Ugratara Temple",
+    "location": "Bhadrak",
+    "image": "https://trip2odisha.in/wp-content/uploads/2024/06/ugratara-1-1024x682.jpg",
+    "availableFor": [
+      "Promotion"
+    ],
+    "pujas": [
+      "Ugra Chandi Puja"
+    ],
+    "price": 7200
+  },
+  {
+    "id": "biraja",
+    "name": "Maa Biraja Temple",
+    "location": "Jajpur",
+    "image": "https://cdn.sanity.io/images/nlpqts3z/production/95110df0d403ae28eeefbc57ca33c2f0674f60c5-1920x931.jpg",
+    "availableFor": [
+      "Marriage",
+      "Anniversary"
+    ],
+    "pujas": [
+      "Biraja Archana",
+      "Durga Patha"
+    ],
+    "price": 6000
+  },
+  {
+    "id": "samaleswari",
+    "name": "Maa Samaleswari Temple",
+    "location": "Sambalpur",
+    "image": "https://www.mysambalpur.in/wp-content/uploads/maa-samaleswari-mandir.jpg",
+    "availableFor": [
+      "Birthday",
+      "Promotion"
+    ],
+    "pujas": [
+      "Samaleswari Puja",
+      "Special Archana"
+    ],
+    "price": 6400
+  },
+  {
+    "id": "kakatpurmangala",
+    "name": "Maa Mangala Temple",
+    "location": "Kakatpur",
+    "image": "https://jewelsofodisha.co.in/wp-content/uploads/2024/04/maa-mangala-temple.jpg",
+    "availableFor": [
+      "Marriage"
+    ],
+    "pujas": [
+      "Mangala Chandi",
+      "Shakti Homam"
+    ],
+    "price": 7000
+  },
+  {
+    "id": "ghatgaontarini",
+    "name": "Maa Tarini Temple",
+    "location": "Ghatgaon",
+    "image": "https://ommcomnews.com/wp-content/uploads/2025/09/Tarini-Temple-Ghatgaon.jpg",
+    "availableFor": [
+      "Birthday",
+      "Anniversary"
+    ],
+    "pujas": [
+      "Tarini Puja",
+      "Special Archana"
+    ],
+    "price": 5900
   }
 ]

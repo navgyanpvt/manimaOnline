@@ -1,23 +1,24 @@
 import React, { useState } from "react";
 import templeData from "../assets/special-puja-temple.json";
 import TempleModal from "./TempleModal";
+import PujaModal from "./PujaModal";
 import "./SpecialPujaTemples.css";
-
 
 const SpecialPujaTemples = ({ onBack }) => {
   const [location, setLocation] = useState("");
   const [purpose, setPurpose] = useState("");
   const [selectedTemple, setSelectedTemple] = useState(null);
+  const [showPujaModal, setShowPujaModal] = useState(false);
 
   const filteredTemples = templeData.filter(t =>
     (!location || t.location === location) &&
     (!purpose || t.availableFor.includes(purpose))
   );
 
-  <SpecialPujaTemples onBack={() => setSelectedService(null)} />
-
   return (
     <section className="special-puja">
+
+      {/* Back Button */}
       <div className="service-header">
         <button className="back-button" onClick={onBack}>
           ← Back to Services
@@ -26,7 +27,7 @@ const SpecialPujaTemples = ({ onBack }) => {
 
       <h2>Special Puja Temples</h2>
 
-      {/* FILTERS */}
+      {/* Filters */}
       <div className="filters">
         <select onChange={e => setLocation(e.target.value)}>
           <option value="">All Locations</option>
@@ -44,7 +45,7 @@ const SpecialPujaTemples = ({ onBack }) => {
         </select>
       </div>
 
-      {/* TEMPLE CARDS */}
+      {/* Temple Cards */}
       <div className="temple-grid">
         {filteredTemples.map(temple => (
           <div
@@ -60,16 +61,26 @@ const SpecialPujaTemples = ({ onBack }) => {
         ))}
       </div>
 
+      {/* Temple Modal */}
       {selectedTemple && (
         <TempleModal
           temple={selectedTemple}
           onClose={() => setSelectedTemple(null)}
+          onRequestPuja={() => {
+            setSelectedTemple(null);
+            setShowPujaModal(true);
+          }}
         />
       )}
+
+      {/* Puja Modal */}
+      <PujaModal
+        isOpen={showPujaModal}
+        onClose={() => setShowPujaModal(false)}
+      />
+
     </section>
   );
 };
-
-
 
 export default SpecialPujaTemples;

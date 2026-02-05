@@ -1,7 +1,7 @@
+import React from "react";
 import "./TempleModal.css";
 
-
-const TempleModal = ({ temple, onClose }) => {
+const TempleModal = ({ temple, onClose, onRequestPuja }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-box">
@@ -15,12 +15,14 @@ const TempleModal = ({ temple, onClose }) => {
 
         <h4>Available Pujas</h4>
         <ul>
-          {temple.pujas.map(p => <li key={p}>{p}</li>)}
+          {temple.pujas.map((p, i) => (
+            <li key={i}>{p}</li>
+          ))}
         </ul>
 
         <h3>Price: ₹{temple.price}</h3>
 
-        <button className="submit-btn">
+        <button className="submit-btn" onClick={onRequestPuja}>
           Request Puja Assistance
         </button>
 
