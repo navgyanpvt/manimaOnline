@@ -32,8 +32,6 @@ export async function POST(req: Request) {
             .update(token)
             .digest("hex");
 
-        console.log("Reset Password: Received Token:", token);
-        console.log("Reset Password: Hashed Token:", resetPasswordToken);
 
         const client = await Client.findOne({
             resetPasswordToken,
@@ -41,14 +39,6 @@ export async function POST(req: Request) {
         });
 
         if (!client) {
-            console.log("Reset Password: No matching client found or token expired.");
-            // Debug: Check if token exists at all without expiry check
-            const debugClient = await Client.findOne({ resetPasswordToken });
-            if (debugClient) {
-                console.log("Reset Password DEBUG: Client found but expired.", debugClient.resetPasswordTokenExpiry);
-            } else {
-                console.log("Reset Password DEBUG: Token not found in DB.");
-            }
             return NextResponse.json({ error: "Invalid or expired token" }, { status: 400 });
         }
 

@@ -19,7 +19,6 @@ export default function AddPandit() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Pandit Data:", formData);
         alert("Functionality to add pandit coming soon!");
     };
 

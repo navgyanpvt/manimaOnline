@@ -40,7 +40,6 @@ export async function POST(req: Request) {
                 email: body.email,
                 password: defaultPassword, // Send the unhashed default password
             });
-            console.log(`Welcome email sent to ${body.email}`);
         } catch (emailError) {
             console.error("Failed to send welcome email:", emailError);
             // Don't fail the request if email fails, but log it

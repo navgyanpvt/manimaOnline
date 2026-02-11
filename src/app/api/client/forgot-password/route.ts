@@ -25,7 +25,6 @@ export async function POST(req: Request) {
 
         const client = await Client.findOne({ email });
         if (!client) {
-            console.log("Forgot Password: Email not found:", email);
             return NextResponse.json({ error: "Email not found" }, { status: 404 });
         }
 
@@ -37,8 +36,6 @@ export async function POST(req: Request) {
 
         const resetPasswordTokenExpiry = Date.now() + 15 * 60 * 1000;
 
-        console.log("Forgot Password: Generated token for:", email);
-        console.log("Forgot Password: Hashed Token to save:", resetPasswordToken);
 
         // Use updateOne to ensure fields are saved even if Mongoose schema cache is stale
         await Client.updateOne(
@@ -51,7 +48,6 @@ export async function POST(req: Request) {
             },
             { strict: false }
         );
-        console.log("Forgot Password: Details saved to DB (forced).");
 
         const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
         const resetLink = `${appUrl}/client/reset-password/${resetToken}`;
@@ -62,7 +58,6 @@ export async function POST(req: Request) {
                 name: client.name,
                 resetLink,
             });
-            console.log("Forgot Password: Email sent.");
         } catch (emailError) {
             console.error("Failed to send reset link email:", emailError);
             return NextResponse.json({ error: "Failed to send reset link email" }, { status: 500 });

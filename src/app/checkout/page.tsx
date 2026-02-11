@@ -107,7 +107,6 @@ function CheckoutContent() {
     }, [router, serviceId, locationId, packageName]);
 
     const handlePayment = async () => {
-        console.log("Handle Payment clicked. Method:", paymentMethod);
 
         if (paymentMethod === 'razorpay') {
             setIsProcessing(true);
@@ -143,7 +142,6 @@ function CheckoutContent() {
                 transactionId: txnId || undefined,
             };
 
-            console.log("Processing booking:", bookingData);
 
             const res = await fetch('/api/bookings', {
                 method: 'POST',
@@ -153,7 +151,6 @@ function CheckoutContent() {
 
             if (res.ok) {
                 const data = await res.json();
-                console.log("Booking created successfully:", data);
                 // Success
                 setShowQRModal(false); // Close QR modal if open
                 setShowSuccessModal(true); // Show Success Modal

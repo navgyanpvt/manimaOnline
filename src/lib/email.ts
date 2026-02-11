@@ -48,7 +48,6 @@ export const sendWelcomeEmail = async ({ to, name, email, password }: any) => {
 
     try {
         const info = await transporter.sendMail(mailOptions);
-        console.log('Message sent: %s', info.messageId);
         return info;
     } catch (error) {
         console.error('Error sending email:', error);
@@ -89,7 +88,6 @@ export const sendResetLinkEmail = async ({ to, name, resetLink }: any) => {
 
     try {
         const info = await transporter.sendMail(mailOptions);
-        console.log('Reset link sent: %s', info.messageId);
         return info;
     } catch (error) {
         console.error('Error sending reset link:', error);
@@ -134,7 +132,6 @@ export const sendBookingConfirmationEmail = async ({ to, name, bookingId, agentN
 
     try {
         const info = await transporter.sendMail(mailOptions);
-        console.log('Booking confirmation email sent: %s', info.messageId);
         return info;
     } catch (error) {
         console.error('Error sending booking confirmation email:', error);

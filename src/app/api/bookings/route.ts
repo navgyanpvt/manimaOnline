@@ -64,7 +64,6 @@ export async function POST(req: Request) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(sheetData)
                 }).then(res => res.text())
-                    .then(text => console.log("Google Sheet Response:", text))
                     .catch(err => console.error("Google Sheet Error:", err));
             } else {
                 console.warn("Skipping Google Sheet Sync: Missing details or Env Var.");
