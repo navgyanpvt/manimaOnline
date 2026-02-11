@@ -23,6 +23,8 @@ const connectToDB = async () => {
 export async function GET() {
     try {
         await connectToDB();
+        // Ensure models are registered for populate
+        const _models = [Client, Service, Location, Agent];
 
         // Verify Admin Token
         const cookieStore = await cookies();

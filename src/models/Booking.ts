@@ -85,11 +85,6 @@ const BookingSchema: Schema = new Schema({
     },
 });
 
-// Force model recompilation in dev to catch schema changes
-if (mongoose.models.Booking) {
-    delete mongoose.models.Booking;
-}
-
-const Booking: Model<IBooking> = mongoose.model<IBooking>("Booking", BookingSchema);
+const Booking: Model<IBooking> = mongoose.models.Booking || mongoose.model<IBooking>("Booking", BookingSchema);
 
 export default Booking;
