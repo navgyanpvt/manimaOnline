@@ -1,0 +1,95 @@
+import mongoose, { Schema, Model, Document } from "mongoose";
+
+export interface IBooking extends Document {
+    client: mongoose.Types.ObjectId;
+    location: mongoose.Types.ObjectId;
+    service: mongoose.Types.ObjectId;
+    priceCategory: string;
+    price: number;
+    agent?: mongoose.Types.ObjectId;
+    paymentStatus: "Pending" | "Completed";
+    paymentMethod?: string;
+    paymentDetails?: string;
+    transactionId?: string;
+    isPaymentVerified: boolean;
+    status: "Pending" | "Confirmed" | "Completed" | "Cancelled";
+    isCompleted: boolean;
+    bookingDate: Date;
+    createdAt: Date;
+}
+
+const BookingSchema: Schema = new Schema({
+    client: {
+        type: Schema.Types.ObjectId,
+        ref: "Client",
+        required: [true, "Please provide a client"],
+    },
+    location: {
+        type: Schema.Types.ObjectId,
+        ref: "Location",
+        required: [true, "Please provide a location"],
+    },
+    service: {
+        type: Schema.Types.ObjectId,
+        ref: "Service",
+        required: [true, "Please provide a service"],
+    },
+    priceCategory: {
+        type: String,
+        required: [true, "Please provide a price category"],
+    },
+    price: {
+        type: Number,
+        required: [true, "Please provide a price"],
+    },
+    agent: {
+        type: Schema.Types.ObjectId,
+        ref: "Agent",
+    },
+    paymentStatus: {
+        type: String,
+        enum: ["Pending", "Completed"],
+        default: "Pending",
+    },
+    paymentMethod: {
+        type: String,
+        enum: ["razorpay", "qr", "cash", "bank_transfer"],
+        default: "qr",
+    },
+    paymentDetails: {
+        type: String,
+    },
+    status: {
+        type: String,
+        enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
+        default: "Pending",
+    },
+    transactionId: {
+        type: String, // Transaction ID or UTR Reference
+    },
+    isPaymentVerified: {
+        type: Boolean,
+        default: false,
+    },
+    isCompleted: {
+        type: Boolean,
+        default: false,
+    },
+    bookingDate: {
+        type: Date,
+        default: Date.now,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+});
+
+// Force model recompilation in dev to catch schema changes
+if (mongoose.models.Booking) {
+    delete mongoose.models.Booking;
+}
+
+const Booking: Model<IBooking> = mongoose.model<IBooking>("Booking", BookingSchema);
+
+export default Booking;
