@@ -55,7 +55,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  color: var(--color-manima-red); /* Updated to use theme color */
+  /* color: var(--color-manima-red); Updated to use theme color */
   font-weight: 700;
   line-height: 1.2;
 }
@@ -182,6 +182,6 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (min-width: 768px) {
   .hero-bg {
-    background-image: url('/assets/HeroSectionTempleDesk.jpeg?v=1') !important;
+    background-image: url('/assets/HeroSectionTempleDesk3.png?v=1') !important;
   }
 }

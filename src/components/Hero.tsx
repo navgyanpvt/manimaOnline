@@ -117,7 +117,7 @@ const Hero = () => {
         ></div>
 
         <h1 className="text-4xl md:text-[2.5rem] mt-8 mb-6 leading-[1.2] text-[#F1C40F] drop-shadow-lg font-normal">
-          With Pure Odia Sanskar
+          For Every Ritual That Matters
         </h1>
 
         <p className="text-[1.2rem] mb-10 text-white/90 max-w-[600px] mx-auto">
