@@ -20,7 +20,7 @@ export async function POST(req: Request) {
         const body = await req.json();
 
         // Basic validation
-        if (!body.client || !body.location || !body.service || !body.priceCategory || !body.price) {
+        if (!body.client || (!body.puja && (!body.location || !body.service)) || !body.priceCategory || !body.price) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
@@ -34,24 +34,39 @@ export async function POST(req: Request) {
 
         // --- GOOGLE SHEETS INTEGRATION ---
         try {
-            // 1. Fetch full details for the sheet
-            const [clientDetails, serviceDetails, locationDetails] = await Promise.all([
-                Client.findById(body.client),
-                Service.findById(body.service),
-                LocationModel.findById(body.location)
-            ]);
-
-            // Use a specific env var for Bookings to avoid conflict with other scripts
+            // Use a specific env var for Bookings
             const scriptUrl = process.env.GOOGLE_SHEETS_BOOKINGS_URL;
+            const clientDetails = await Client.findById(body.client);
 
-            if (clientDetails && serviceDetails && locationDetails && scriptUrl) {
+            let serviceName = "Unknown Service";
+            let locationName = "Unknown Location";
+
+            if (body.puja) {
+                // Fetch Puja details
+                const Puja = (await import("@/models/Puja")).default; // Dynamic import to avoid circular dep issues if any
+                const pujaDetails = await Puja.findById(body.puja);
+                if (pujaDetails) {
+                    serviceName = pujaDetails.name;
+                    locationName = pujaDetails.location; // Puja model has string location
+                }
+            } else {
+                // Fetch Service/Location details
+                const [serviceDetails, locationDetails] = await Promise.all([
+                    Service.findById(body.service),
+                    LocationModel.findById(body.location)
+                ]);
+                if (serviceDetails) serviceName = serviceDetails.name;
+                if (locationDetails) locationName = locationDetails.name;
+            }
+
+            if (clientDetails && scriptUrl) {
                 const sheetData = {
                     name: clientDetails.name,
                     email: clientDetails.email,
                     phone: clientDetails.phone,
                     address: clientDetails.address || "N/A",
-                    service: serviceDetails.name,
-                    location: locationDetails.name,
+                    service: serviceName,
+                    location: locationName,
                     package: body.package,
                     price: body.price,
                     paymentMethod: body.paymentMethod,

@@ -5,8 +5,9 @@ import { Loader2, Calendar, MapPin, ShieldCheck, Clock, User } from "lucide-reac
 
 interface Booking {
     _id: string;
-    service: { name: string };
-    location: { name: string };
+    service?: { name: string };
+    location?: { name: string };
+    puja?: { name: string; location: string };
     price: number;
     paymentMethod: string;
     transactionId?: string;
@@ -39,139 +40,120 @@ export default function ClientBookingsList() {
         fetchBookings();
     }, []);
 
-    if (loading) return <div className="p-8 text-center text-gray-400">Loading your bookings...</div>;
+    if (loading) return (
+        <div className="flex flex-col items-center justify-center min-h-[400px] text-gray-400 gap-4">
+            <Loader2 className="animate-spin text-[#D35400]" size={40} />
+            <p className="text-lg">Loading your bookings...</p>
+        </div>
+    );
 
     if (bookings.length === 0) {
         return (
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
-                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300">
-                    <Calendar size={32} />
+            <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-16 text-center">
+                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300">
+                    <Calendar size={40} />
                 </div>
-                <h3 className="text-lg font-bold text-gray-800 mb-2">No Bookings Yet</h3>
-                <p className="text-gray-500 text-sm mb-6">Book a ritual to get started with your spiritual journey.</p>
+                <h3 className="text-2xl font-bold text-gray-800 mb-3">No Bookings Yet</h3>
+                <p className="text-gray-500 text-base mb-8">Book a ritual to get started with your spiritual journey.</p>
             </div>
         );
     }
 
     return (
         <div className="flex flex-col gap-6">
-            <h2 className="text-2xl font-serif font-bold text-[#2C0E0F] flex items-center gap-3">
-                <Calendar className="text-[#DAA520]" size={28} />
-                My Bookings
-            </h2>
+            <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-serif font-bold text-[#2C0E0F] flex items-center gap-3">
+                    <Calendar className="text-[#DAA520]" size={28} />
+                    My Bookings
+                </h2>
+                <span className="text-sm font-medium text-gray-500 bg-white px-3 py-1 rounded-full border border-gray-200 shadow-sm">
+                    {bookings.length} {bookings.length === 1 ? 'Booking' : 'Bookings'}
+                </span>
+            </div>
 
-            <div className="grid gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {bookings.map((booking) => (
-                    <div key={booking._id} className="group bg-white rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 border border-gray-100 relative overflow-hidden">
+                    <div key={booking._id} className="group bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 border border-gray-100 relative overflow-hidden flex flex-col h-full">
 
                         {/* Decorative Gradient Line */}
-                        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#DAA520] to-[#2C0E0F]"></div>
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#DAA520] to-[#2C0E0F]"></div>
 
-                        <div className="flex flex-col md:flex-row justify-between gap-6">
-
-                            {/* Left: Service Info */}
-                            <div className="flex-1 space-y-3">
-                                <div className="flex items-start justify-between md:justify-start gap-4">
+                        <div className="flex-1 space-y-5">
+                            {/* Service Info */}
+                            <div className="space-y-3">
+                                <div className="flex items-start justify-between gap-4">
                                     <h3 className="text-xl font-bold text-gray-900 font-serif leading-tight">
-                                        {booking.service?.name}
+                                        {booking.service?.name || booking.puja?.name || "Unknown Service"}
                                     </h3>
-                                    {/* Mobile Status */}
-                                    <div className="md:hidden">
-                                        {booking.status === "Confirmed" ? (
-                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 text-green-700 text-[10px] font-bold uppercase tracking-wider border border-green-100">
-                                                <ShieldCheck size={12} /> Confirmed
-                                            </span>
-                                        ) : booking.status === "Pending" ? (
-                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-[10px] font-bold uppercase tracking-wider border border-amber-100">
-                                                <Clock size={12} /> Pending
-                                            </span>
-                                        ) : (
-                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-50 text-gray-600 text-[10px] font-bold uppercase tracking-wider border border-gray-100">
-                                                {booking.status}
-                                            </span>
-                                        )}
-                                    </div>
                                 </div>
 
                                 <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
                                     <div className="flex items-center gap-1.5">
-                                        <MapPin size={14} className="text-[#DAA520]" />
-                                        <span>{booking.location?.name}</span>
+                                        <MapPin size={16} className="text-[#DAA520]" />
+                                        <span>{booking.location?.name || booking.puja?.location || "Unknown Location"}</span>
                                     </div>
                                     <div className="hidden md:block w-1 h-1 rounded-full bg-gray-300"></div>
                                     <div className="flex items-center gap-1.5">
-                                        <Clock size={14} className="text-[#DAA520]" />
-                                        <span>{new Date(booking.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                        <Clock size={16} className="text-[#DAA520]" />
+                                        <span>{new Date(booking.bookingDate || booking.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Right: Status & Price (Desktop) */}
-                            <div className="hidden md:flex flex-col items-end gap-2">
-                                {booking.status === "Confirmed" ? (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold uppercase tracking-wider border border-green-100 shadow-sm">
-                                        <ShieldCheck size={14} /> Confirmed
-                                    </span>
-                                ) : booking.status === "Pending" ? (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold uppercase tracking-wider border border-amber-100 shadow-sm">
-                                        <Clock size={14} /> Verification Pending
-                                    </span>
-                                ) : (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-50 text-gray-600 text-xs font-bold uppercase tracking-wider border border-gray-100">
-                                        {booking.status}
-                                    </span>
-                                )}
-                                <p className="text-2xl font-bold text-[#2C0E0F]">₹{booking.price}</p>
+                            {/* Status and Price flex container */}
+                            <div className="flex items-center justify-between border-t border-gray-50 pt-4">
+                                <div>
+                                    {booking.status === "Confirmed" ? (
+                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold uppercase tracking-wider border border-green-100 shadow-sm">
+                                            <ShieldCheck size={14} /> Confirmed
+                                        </span>
+                                    ) : booking.status === "Pending" ? (
+                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold uppercase tracking-wider border border-amber-100 shadow-sm">
+                                            <Clock size={14} /> Pending
+                                        </span>
+                                    ) : (
+                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-50 text-gray-600 text-xs font-bold uppercase tracking-wider border border-gray-100">
+                                            {booking.status}
+                                        </span>
+                                    )}
+                                </div>
+                                <p className="text-2xl font-bold text-[#2C0E0F]">₹{booking.price.toLocaleString('en-IN')}</p>
                             </div>
                         </div>
 
                         {/* Divider */}
-                        <div className="h-px bg-gray-50 my-6"></div>
+                        <div className="h-px bg-gray-50 my-5"></div>
 
-                        {/* Bottom Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Bottom Info */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
                             {/* Payment Info */}
-                            <div className="space-y-3">
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Payment Details</p>
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
-                                        <span className="text-sm font-semibold text-gray-700 capitalize">{booking.paymentMethod}</span>
-                                    </div>
+                            <div className="flex flex-col gap-1">
+                                <span className="text-xs text-gray-400 font-bold uppercase tracking-widest">Payment</span>
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <span className="font-semibold text-gray-700 capitalize text-sm">{booking.paymentMethod}</span>
                                     {booking.transactionId && (
-                                        <div className="flex items-center gap-2 text-xs text-gray-500 font-mono bg-yellow-50/50 px-2 py-1 rounded border border-yellow-100">
-                                            <span>ID:</span>
-                                            <span className="font-medium text-gray-700">{booking.transactionId}</span>
-                                        </div>
+                                        <span className="bg-yellow-50 text-gray-600 px-1.5 py-0.5 rounded border border-yellow-100 font-mono text-[10px] break-all">
+                                            {booking.transactionId}
+                                        </span>
                                     )}
                                 </div>
                             </div>
 
                             {/* Agent Info */}
-                            <div className="space-y-3">
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Assigned Agent</p>
+                            <div className="flex flex-col gap-1 lg:items-end">
+                                <span className="text-xs text-gray-400 font-bold uppercase tracking-widest">Pandit Ji</span>
                                 {booking.agent ? (
-                                    <div className="flex items-center gap-3 group/agent">
-                                        <div className="w-10 h-10 rounded-full bg-[#2C0E0F] text-[#DAA520] flex items-center justify-center shadow-md ring-2 ring-white group-hover/agent:scale-105 transition-transform">
-                                            <User size={18} />
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-6 h-6 rounded-full bg-[#2C0E0F] text-[#DAA520] flex items-center justify-center border border-white shadow-sm">
+                                            <User size={12} />
                                         </div>
-                                        <div>
-                                            <p className="font-bold text-gray-900 text-sm">{booking.agent.name}</p>
-                                        </div>
+                                        <span className="font-bold text-gray-900 text-sm">{booking.agent.name}</span>
                                     </div>
                                 ) : (
-                                    <div className="flex items-center gap-2 text-gray-400 text-sm italic bg-gray-50/50 px-3 py-2 rounded-lg border border-gray-100/50 w-fit">
-                                        <Clock size={14} />
-                                        <span>Pandit assignment in progress...</span>
-                                    </div>
+                                    <span className="text-gray-400 italic text-sm">Assigning...</span>
                                 )}
                             </div>
-                        </div>
-
-                        {/* Mobile Price (shows at bottom instead of top right) */}
-                        <div className="md:hidden mt-6 pt-4 border-t border-gray-50 flex justify-between items-center">
-                            <span className="text-gray-500 font-medium">Total Amount</span>
-                            <span className="text-xl font-bold text-[#2C0E0F]">₹{booking.price}</span>
                         </div>
 
                     </div>

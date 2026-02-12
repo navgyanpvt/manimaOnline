@@ -38,6 +38,7 @@ export async function GET() {
         const bookings = await Booking.find({ client: clientId as any })
             .populate("service", "name")
             .populate("location", "name")
+            .populate("puja", "name location imageUrl")
             .populate("agent", "name phone")
             .sort({ createdAt: -1 });
 

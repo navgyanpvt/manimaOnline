@@ -42,6 +42,7 @@ export default function Sidebar() {
         { href: "/admin/dashboard/add-agent", label: "Add Agent", icon: Users },
         { href: "/admin/dashboard/add-pandit", label: "Add Pandit", icon: UserCog },
         { href: "/admin/dashboard/add-service", label: "Add Service", icon: PackagePlus },
+        { href: "/admin/puja/add", label: "Add Puja", icon: PackagePlus },
     ];
 
     return (

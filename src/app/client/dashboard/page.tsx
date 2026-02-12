@@ -110,6 +110,13 @@ export default function ClientDashboard() {
                                             Book New Ritual
                                         </button>
                                         <button
+                                            onClick={() => router.push('/client/dashboard/bookpuja')}
+                                            className="px-8 py-3.5 bg-[#2C0E0F] text-[#DAA520] border border-[#DAA520] font-bold rounded-xl hover:bg-[#DAA520] hover:text-[#2C0E0F] transition-all shadow-lg active:scale-95 flex items-center gap-2"
+                                        >
+                                            <Search size={20} />
+                                            Book Ritual Puja
+                                        </button>
+                                        <button
                                             onClick={() => setActiveTab('bookings')}
                                             className="px-8 py-3.5 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-all border border-white/10 backdrop-blur-sm"
                                         >
@@ -222,7 +229,7 @@ export default function ClientDashboard() {
                 );
             case "bookings":
                 return (
-                    <div className="max-w-4xl">
+                    <div className="w-full animate-in fade-in zoom-in-95 duration-500">
                         <ClientBookingsList />
                     </div>
                 );

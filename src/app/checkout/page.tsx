@@ -21,6 +21,7 @@ function CheckoutContent() {
     const serviceId = searchParams.get('serviceId');
     const locationId = searchParams.get('locationId');
     const packageName = searchParams.get('packageName');
+    const pujaId = searchParams.get('pujaId'); // NEW
 
     // State
     const [client, setClient] = useState<ClientProfile | null>(null);
@@ -60,6 +61,30 @@ function CheckoutContent() {
                 const userData = await userRes.json();
                 setClient(userData);
 
+                // --- NEW: Puja Booking Flow ---
+                if (pujaId && packageName) {
+                    const pRes = await fetch('/api/puja');
+                    if (pRes.ok) {
+                        const pData = await pRes.json();
+                        // @ts-ignore
+                        const foundPuja = pData.data.find((p: any) => p._id === pujaId);
+
+                        if (foundPuja) {
+                            setServiceName(foundPuja.name);
+                            setLocationName(foundPuja.location);
+                            // @ts-ignore
+                            const foundPackage = foundPuja.packages.find((p: any) => p.categoryName === packageName);
+                            if (foundPackage) {
+                                setFetchedPrice(foundPackage.priceAmount);
+                            }
+                        }
+                    }
+                    setLoading(false);
+                    return; // Skip existing service/location logic
+                }
+                // -----------------------------
+
+
                 // 2. Fetch Service Name
                 if (serviceId) {
                     const sRes = await fetch('/api/services');
@@ -73,7 +98,6 @@ function CheckoutContent() {
                     const lRes = await fetch('/api/locations');
                     const locations = await lRes.json();
                     const l = locations.find((i: any) => i._id === locationId);
-
                     if (l) {
                         setLocationName(l.name);
 
@@ -104,7 +128,7 @@ function CheckoutContent() {
         };
 
         initCheckout();
-    }, [router, serviceId, locationId, packageName]);
+    }, [router, serviceId, locationId, packageName, pujaId]);
 
     const handlePayment = async () => {
 
@@ -131,16 +155,22 @@ function CheckoutContent() {
         setIsProcessing(true);
 
         try {
-            const bookingData = {
+            const bookingData: any = {
                 client: client?._id,
-                service: serviceId,
-                location: locationId,
                 package: packageName,
                 price: totalAmount, // Use totalAmount which includes GST if applicable
                 priceCategory: packageName, // Assuming this maps to priceCategory in schema
                 paymentMethod,
                 transactionId: txnId || undefined,
             };
+
+            // Conditionally add fields
+            if (pujaId) {
+                bookingData.puja = pujaId;
+            } else {
+                bookingData.service = serviceId;
+                bookingData.location = locationId;
+            }
 
 
             const res = await fetch('/api/bookings', {

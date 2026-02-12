@@ -2,8 +2,9 @@ import mongoose, { Schema, Model, Document } from "mongoose";
 
 export interface IBooking extends Document {
     client: mongoose.Types.ObjectId;
-    location: mongoose.Types.ObjectId;
-    service: mongoose.Types.ObjectId;
+    location?: mongoose.Types.ObjectId;
+    service?: mongoose.Types.ObjectId;
+    puja?: mongoose.Types.ObjectId;
     priceCategory: string;
     price: number;
     agent?: mongoose.Types.ObjectId;
@@ -27,12 +28,14 @@ const BookingSchema: Schema = new Schema({
     location: {
         type: Schema.Types.ObjectId,
         ref: "Location",
-        required: [true, "Please provide a location"],
     },
     service: {
         type: Schema.Types.ObjectId,
         ref: "Service",
-        required: [true, "Please provide a service"],
+    },
+    puja: {
+        type: Schema.Types.ObjectId,
+        ref: "Puja",
     },
     priceCategory: {
         type: String,

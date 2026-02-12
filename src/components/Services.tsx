@@ -9,6 +9,7 @@ interface Service {
     _id: string;
     name: string;
     details: string;
+    link?: string;
 }
 
 interface ServicesProps {
@@ -34,7 +35,14 @@ const Services = ({ onServiceClick }: ServicesProps) => {
                 const res = await fetch('/api/services');
                 if (res.ok) {
                     const data = await res.json();
-                    setServices(data);
+                    // Add static "Ritual Puja" service at the beginning
+                    const ritualPuja: Service = {
+                        _id: 'ritual-puja-static',
+                        name: 'Ritual Puja',
+                        details: 'Perform authentic Vedic Pujas with experienced Pandits at sacred temples. Book online for smooth and divine experiences.',
+                        link: '/pujas'
+                    };
+                    setServices([ritualPuja, ...data]);
                 }
             } catch (error) {
                 console.error("Failed to fetch services:", error);
@@ -59,7 +67,7 @@ const Services = ({ onServiceClick }: ServicesProps) => {
                                 key={service._id}
                                 className="flex-1 min-w-[280px] bg-white rounded-lg shadow-sm transition-all duration-300 ease-in-out border-t-[5px] border-[#DAA520] relative group hover:-translate-y-2 hover:shadow-lg cursor-pointer"
                             >
-                                <Link href={`/services?serviceId=${service._id}`} className="block h-full w-full py-10 px-6 text-center">
+                                <Link href={service.link || `/services?serviceId=${service._id}`} className="block h-full w-full py-10 px-6 text-center">
                                     <div className="absolute -top-[15px] left-1/2 -translate-x-1/2 bg-[#C0392B] text-white w-[30px] h-[30px] rounded-full flex items-center justify-center font-bold font-serif shadow-sm">
                                         {index + 1}
                                     </div>
