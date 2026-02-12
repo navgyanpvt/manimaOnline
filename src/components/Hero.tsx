@@ -106,25 +106,22 @@ const Hero = () => {
         ref={logoRef}
         src="/assets/manima_logo.png"
         alt="Manima Logo"
-        className="fixed z-[99] h-auto drop-shadow-2xl pointer-events-none"
+        className="fixed z-[99] h-auto mr-35 drop-shadow-2xl pointer-events-none"
       />
 
-      <div className="relative z-20 max-w-[800px] mx-auto text-center pt-[60px] px-6">
+      <div className="relative z-20 max-w-[800px] mx-auto md:mr-65 text-center pt-[60px] px-6">
         {/* Placeholder to define starting position */}
         <div
           ref={placeholderRef}
           className="flex justify-center mx-auto mb-6 w-[250px] sm:w-[320px] md:w-[550px] aspect-[4.39/1] opacity-0"
         ></div>
 
-        <h1 className="text-4xl md:text-[2.5rem] mt-8 mb-6 leading-[1.2] text-[#F1C40F] drop-shadow-lg font-normal">
+        <h1 className="text-4xl md:text-[2rem] mt-8 mb-6 leading-[1.2] text-[#f1c40f]/100 drop-shadow-lg font-normal">
           For Every Ritual That Matters
         </h1>
 
-        <p className="text-[1.2rem] mb-10 text-white/90 max-w-[600px] mx-auto">
-          Honor your ancestors from anywhere in the world. We perform Pinda Daan
-          at Puri Swargadwar and Baitarani with verified priests, live
-          streaming, and complete adherence to traditions.
-        </p>
+        <p className="text-[1.25rem] mb-10 text-[#ffffff]/80 max-w-[600px] mx-auto">
+          Experience sacred rituals from your home — because faith should never feel far away.        </p>
 
         <div className="flex flex-col md:flex-row gap-6 justify-center mb-16">
           <button
