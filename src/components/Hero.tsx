@@ -109,7 +109,7 @@ const Hero = () => {
         className="fixed z-[99] h-auto mr-35 drop-shadow-2xl pointer-events-none"
       />
 
-      <div className="relative z-20 max-w-[800px] mx-auto md:mr-65 text-center pt-[60px] px-6">
+      <div className="relative z-20 max-w-[800px] mx-auto md:mr-[15%] text-center pt-[60px] px-6">
         {/* Placeholder to define starting position */}
         <div
           ref={placeholderRef}
