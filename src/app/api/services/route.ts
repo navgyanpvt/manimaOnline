@@ -43,3 +43,31 @@ export async function GET() {
         return NextResponse.json({ error: "Failed to fetch services" }, { status: 500 });
     }
 }
+
+export async function PATCH(req: Request) {
+    try {
+        await connectToDB();
+        const { id, _id, name, details } = await req.json();
+
+        const serviceId = id || _id;
+
+        if (!serviceId) {
+            return NextResponse.json({ error: "Service ID is required" }, { status: 400 });
+        }
+
+        const updatedService = await Service.findByIdAndUpdate(
+            serviceId,
+            { name, details },
+            { new: true }
+        );
+
+        if (!updatedService) {
+            return NextResponse.json({ error: "Service not found" }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: "Service updated successfully", service: updatedService });
+    } catch (error) {
+        console.error("Error updating service:", error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
+}

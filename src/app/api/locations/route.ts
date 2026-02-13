@@ -40,3 +40,30 @@ export async function GET() {
         return NextResponse.json({ error: "Failed to fetch locations" }, { status: 500 });
     }
 }
+
+export async function PATCH(req: Request) {
+    try {
+        await connectToDB();
+        const { id, _id, ...updateData } = await req.json();
+        const locationId = id || _id;
+
+        if (!locationId) {
+            return NextResponse.json({ error: "Location ID is required" }, { status: 400 });
+        }
+
+        const updatedLocation = await Location.findByIdAndUpdate(
+            locationId,
+            updateData,
+            { new: true }
+        );
+
+        if (!updatedLocation) {
+            return NextResponse.json({ error: "Location not found" }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: "Location updated successfully", location: updatedLocation });
+    } catch (error) {
+        console.error("Error updating location:", error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
+}

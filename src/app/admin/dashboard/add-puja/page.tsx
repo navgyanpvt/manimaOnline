@@ -111,58 +111,58 @@ export default function AddPujaPage() {
     };
 
     return (
-        <div className="max-w-7xl mx-auto p-8">
-            <div className="flex justify-between items-center mb-10">
+        <div className="max-w-5xl mx-auto p-6">
+            <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-4xl font-heading font-bold text-gray-900 tracking-tight">Add New Puja</h1>
-                    <p className="text-gray-500 mt-2 text-lg">Create a new puja service offering</p>
+                    <h1 className="text-2xl font-heading font-bold text-gray-900 tracking-tight">Add New Puja</h1>
+                    <p className="text-gray-500 mt-1 text-sm">Create a new puja service offering</p>
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     {/* Left Column: Basic Details */}
-                    <div className="lg:col-span-8 space-y-8">
+                    <div className="lg:col-span-8 space-y-6">
                         {/* Basic Info Card */}
-                        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 className="text-xl font-heading font-semibold text-gray-800 mb-6 flex items-center gap-2">
-                                <span className="w-1 h-6 bg-manima-red rounded-full"></span>
+                        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <h2 className="text-lg font-heading font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                <span className="w-1 h-5 bg-manima-red rounded-full"></span>
                                 Basic Information
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2 md:col-span-2">
-                                    <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Temple Name</label>
+                                    <label className="text-xs font-semibold text-gray-700 uppercase tracking-wide">Temple Name</label>
                                     <input
                                         type="text"
                                         name="name"
                                         value={formData.name}
                                         onChange={handleInputChange}
                                         required
-                                        className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-manima-red/20 focus:border-manima-red outline-none transition-all placeholder-gray-400"
+                                        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-manima-red/20 focus:border-manima-red outline-none transition-all placeholder-gray-400 text-sm"
                                         placeholder="e.g. Sri Kashi Vishwanath Temple"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Location</label>
+                                    <label className="text-xs font-semibold text-gray-700 uppercase tracking-wide">Location</label>
                                     <input
                                         type="text"
                                         name="location"
                                         value={formData.location}
                                         onChange={handleInputChange}
                                         required
-                                        className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-manima-red/20 focus:border-manima-red outline-none transition-all placeholder-gray-400"
+                                        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-manima-red/20 focus:border-manima-red outline-none transition-all placeholder-gray-400 text-sm"
                                         placeholder="e.g. Varanasi, Uttar Pradesh"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Deity / Temple Type</label>
+                                    <label className="text-xs font-semibold text-gray-700 uppercase tracking-wide">Deity / Temple Type</label>
                                     <input
                                         type="text"
                                         name="templeType"
                                         value={formData.templeType}
                                         onChange={handleInputChange}
                                         required
-                                        className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-manima-red/20 focus:border-manima-red outline-none transition-all placeholder-gray-400"
+                                        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-manima-red/20 focus:border-manima-red outline-none transition-all placeholder-gray-400 text-sm"
                                         placeholder="e.g. Shiva"
                                     />
                                 </div>
@@ -170,9 +170,9 @@ export default function AddPujaPage() {
                         </div>
 
                         {/* Packages Section */}
-                        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 className="text-xl font-heading font-semibold text-gray-800 mb-6 flex items-center gap-2">
-                                <span className="w-1 h-6 bg-manima-gold rounded-full"></span>
+                        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <h2 className="text-lg font-heading font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                <span className="w-1 h-5 bg-manima-gold rounded-full"></span>
                                 Packages
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -180,8 +180,8 @@ export default function AddPujaPage() {
                                     <div
                                         key={pkg.categoryName}
                                         className={`relative border rounded-2xl p-6 transition-all duration-300 hover:shadow-md ${pkg.categoryName === 'Premium'
-                                                ? 'bg-gradient-to-br from-amber-50 to-white border-amber-200/60'
-                                                : 'bg-white border-gray-200'
+                                            ? 'bg-gradient-to-br from-amber-50 to-white border-amber-200/60'
+                                            : 'bg-white border-gray-200'
                                             }`}
                                     >
                                         <div className="flex justify-between items-start mb-6">
@@ -202,13 +202,13 @@ export default function AddPujaPage() {
                                             <div>
                                                 <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Price (₹)</label>
                                                 <div className="relative group">
-                                                    <IndianRupee className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-manima-red transition-colors" size={18} />
+                                                    <IndianRupee className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-manima-red transition-colors" size={14} />
                                                     <input
                                                         type="number"
                                                         min="0"
                                                         value={pkg.priceAmount}
                                                         onChange={(e) => handlePackageChange(listIndex, "priceAmount", e.target.value)}
-                                                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-manima-red/20 focus:border-manima-red outline-none text-gray-900 font-medium transition-all"
+                                                        className="w-full pl-8 pr-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-manima-red/20 focus:border-manima-red outline-none text-gray-900 font-medium transition-all text-sm"
                                                         placeholder="0.00"
                                                     />
                                                 </div>
@@ -259,11 +259,11 @@ export default function AddPujaPage() {
                     </div>
 
                     {/* Right Column: Image & Actions */}
-                    <div className="lg:col-span-4 space-y-8">
+                    <div className="lg:col-span-4 space-y-6">
                         {/* Image Upload Card */}
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                            <h2 className="text-lg font-heading font-semibold text-gray-800 mb-4">Puja Image</h2>
-                            <div className="w-full aspect-[4/3] bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl overflow-hidden hover:border-manima-red/50 transition-colors group relative">
+                        <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                            <h2 className="text-base font-heading font-semibold text-gray-800 mb-3">Puja Image</h2>
+                            <div className="w-full aspect-[4/3] bg-gray-50 border-2 border-dashed border-gray-200 rounded-lg overflow-hidden hover:border-manima-red/50 transition-colors group relative">
                                 {previewUrl ? (
                                     <>
                                         <img
@@ -304,14 +304,14 @@ export default function AddPujaPage() {
                         </div>
 
                         {/* Actions Card */}
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-8">
-                            <h2 className="text-lg font-heading font-semibold text-gray-800 mb-4">Publish</h2>
-                            <p className="text-sm text-gray-500 mb-6">Review your details before publishing the puja service.</p>
+                        <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 sticky top-8">
+                            <h2 className="text-base font-heading font-semibold text-gray-800 mb-3">Publish</h2>
+                            <p className="text-xs text-gray-500 mb-4">Review your details before publishing.</p>
 
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-manima-red to-red-700 text-white px-6 py-4 rounded-xl font-bold shadow-lg shadow-red-500/20 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-manima-red to-red-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg shadow-red-500/20 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed text-sm"
                             >
                                 {isSubmitting ? (
                                     <>

@@ -15,7 +15,8 @@ import {
     CalendarPlus,
     UserPlus,
     PackagePlus,
-    ChevronDown
+    ChevronDown,
+    Plus
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -38,11 +39,11 @@ export default function Sidebar() {
             ]
         },
         { href: "/admin/dashboard/add-client", label: "Add Client", icon: UserPlus },
-        { href: "/admin/dashboard/add-location", label: "Add Location", icon: MapPin },
+        { href: "/admin/dashboard/locations", label: "All Locations", icon: MapPin },
         { href: "/admin/dashboard/add-agent", label: "Add Agent", icon: Users },
         { href: "/admin/dashboard/add-pandit", label: "Add Pandit", icon: UserCog },
-        { href: "/admin/dashboard/add-service", label: "Add Service", icon: PackagePlus },
-        { href: "/admin/puja/add", label: "Add Puja", icon: PackagePlus },
+        { href: "/admin/dashboard/services", label: "All Services", icon: PackagePlus },
+        { href: "/admin/dashboard/pujas", label: "All Pujas", icon: PackagePlus },
     ];
 
     return (

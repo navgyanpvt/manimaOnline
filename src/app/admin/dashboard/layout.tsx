@@ -19,6 +19,8 @@ export default function AdminLayout({
                 return "Add Client";
             case "/admin/dashboard/add-location":
                 return "Add Location";
+            case "/admin/dashboard/locations":
+                return "All Locations";
             case "/admin/dashboard/add-agent":
                 return "Add Agent";
             case "/admin/dashboard/add-booking":
@@ -27,7 +29,22 @@ export default function AdminLayout({
                 return "Add Pandit";
             case "/admin/dashboard/add-service":
                 return "Add Service";
+            case "/admin/dashboard/services":
+                return "All Services";
+            case "/admin/dashboard/add-puja":
+                return "Add Puja";
+            case "/admin/dashboard/pujas":
+                return "All Pujas";
             default:
+                if (pathname?.startsWith("/admin/dashboard/edit-puja/")) {
+                    return "Edit Puja";
+                }
+                if (pathname?.startsWith("/admin/dashboard/edit-service/")) {
+                    return "Edit Service";
+                }
+                if (pathname?.startsWith("/admin/dashboard/edit-location/")) {
+                    return "Edit Location";
+                }
                 return "Admin";
         }
     };
