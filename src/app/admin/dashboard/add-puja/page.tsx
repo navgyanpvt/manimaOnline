@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2, Plus, Trash2, IndianRupee, Save } from "lucide-react";
 
 interface Package {
-    categoryName: "Standard" | "Premium";
+    name: string;
     features: string[];
     priceAmount: number | string;
 }
@@ -18,15 +18,14 @@ export default function AddPujaPage() {
         name: "",
         location: "",
         templeType: "",
-        description: "", // Assuming description might be needed, though not in interface explicitly, keeping it consistent with typical forms
+        description: "",
     });
 
     const [file, setFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
     const [packages, setPackages] = useState<Package[]>([
-        { categoryName: "Standard", features: [""], priceAmount: "" },
-        { categoryName: "Premium", features: [""], priceAmount: "" },
+        { name: "Standard", features: [""], priceAmount: "" },
     ]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -58,6 +57,16 @@ export default function AddPujaPage() {
     const addFeature = (pkgIndex: number) => {
         const newPackages = [...packages];
         newPackages[pkgIndex].features.push("");
+        setPackages(newPackages);
+    };
+
+    const addPackage = () => {
+        if (packages.length >= 3) return; // Limit to 3 packages
+        setPackages([...packages, { name: "", features: [""], priceAmount: "" }]);
+    };
+
+    const removePackage = (index: number) => {
+        const newPackages = packages.filter((_, i) => i !== index);
         setPackages(newPackages);
     };
 
@@ -171,85 +180,107 @@ export default function AddPujaPage() {
 
                         {/* Packages Section */}
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <h2 className="text-lg font-heading font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                <span className="w-1 h-5 bg-manima-gold rounded-full"></span>
-                                Packages
+                            <h2 className="text-lg font-heading font-semibold text-gray-800 mb-4 flex items-center justify-between">
+                                <span className="flex items-center gap-2">
+                                    <span className="w-1 h-5 bg-manima-gold rounded-full"></span>
+                                    Packages ({packages.length}/3)
+                                </span>
+                                <button
+                                    type="button"
+                                    onClick={addPackage}
+                                    disabled={packages.length >= 3}
+                                    className={`flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full transition-all ${packages.length >= 3
+                                        ? "text-gray-400 border border-gray-200 cursor-not-allowed"
+                                        : "text-manima-red hover:text-white hover:bg-manima-red border border-manima-red"
+                                        }`}
+                                >
+                                    <Plus size={14} /> ADD PACKAGE
+                                </button>
                             </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="flex flex-col gap-4">
                                 {packages.map((pkg, listIndex) => (
                                     <div
-                                        key={pkg.categoryName}
-                                        className={`relative border rounded-2xl p-6 transition-all duration-300 hover:shadow-md ${pkg.categoryName === 'Premium'
-                                            ? 'bg-gradient-to-br from-amber-50 to-white border-amber-200/60'
-                                            : 'bg-white border-gray-200'
-                                            }`}
+                                        key={listIndex}
+                                        className="relative border rounded-xl p-4 bg-white border-gray-200 hover:border-manima-red/30 transition-all group"
                                     >
-                                        <div className="flex justify-between items-start mb-6">
-                                            <div>
-                                                <h3 className={`font-bold text-lg ${pkg.categoryName === 'Premium' ? 'text-amber-700' : 'text-gray-800'}`}>
-                                                    {pkg.categoryName}
-                                                </h3>
-                                                <p className="text-xs text-gray-500 mt-1">Configure {pkg.categoryName.toLowerCase()} tier options</p>
+                                        <div className="flex flex-col md:flex-row gap-6 items-start">
+                                            {/* Package Name */}
+                                            <div className="w-full md:w-1/4">
+                                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Package Name</label>
+                                                <input
+                                                    type="text"
+                                                    value={pkg.name}
+                                                    onChange={(e) => handlePackageChange(listIndex, "name", e.target.value)}
+                                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-manima-red focus:border-manima-red outline-none text-sm font-bold transition-all"
+                                                    placeholder="e.g. Standard"
+                                                />
                                             </div>
-                                            {pkg.categoryName === 'Premium' && (
-                                                <span className="px-2 py-1 bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-wider rounded-md">
-                                                    Recommended
-                                                </span>
-                                            )}
-                                        </div>
 
-                                        <div className="space-y-5">
-                                            <div>
+                                            {/* Price */}
+                                            <div className="w-full md:w-1/4">
                                                 <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Price (₹)</label>
-                                                <div className="relative group">
-                                                    <IndianRupee className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-manima-red transition-colors" size={14} />
+                                                <div className="relative">
+                                                    <IndianRupee className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
                                                     <input
                                                         type="number"
                                                         min="0"
                                                         value={pkg.priceAmount}
                                                         onChange={(e) => handlePackageChange(listIndex, "priceAmount", e.target.value)}
-                                                        className="w-full pl-8 pr-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-manima-red/20 focus:border-manima-red outline-none text-gray-900 font-medium transition-all text-sm"
+                                                        className="w-full pl-8 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-manima-red focus:border-manima-red outline-none text-sm font-medium transition-all"
                                                         placeholder="0.00"
                                                     />
                                                 </div>
                                             </div>
 
-                                            <div>
-                                                <div className="flex justify-between items-center mb-3">
+                                            {/* Features */}
+                                            <div className="w-full md:w-1/2">
+                                                <div className="flex justify-between items-center mb-2">
                                                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Features</label>
                                                     <button
                                                         type="button"
                                                         onClick={() => addFeature(listIndex)}
-                                                        className="text-xs flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded-md font-medium transition-colors"
+                                                        className="text-[10px] flex items-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded transition-colors"
                                                     >
-                                                        <Plus size={14} /> Add Feature
+                                                        <Plus size={12} /> Add
                                                     </button>
                                                 </div>
-                                                <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+                                                <div className="space-y-2">
                                                     {pkg.features.map((feature, featureIndex) => (
-                                                        <div key={featureIndex} className="flex gap-2 group">
+                                                        <div key={featureIndex} className="flex gap-2">
                                                             <input
                                                                 type="text"
                                                                 value={feature}
                                                                 onChange={(e) => handleFeatureChange(listIndex, featureIndex, e.target.value)}
-                                                                className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:bg-white focus:border-manima-red focus:ring-1 focus:ring-manima-red outline-none transition-all placeholder-gray-400"
-                                                                placeholder="e.g. Live Streaming"
+                                                                className="flex-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded text-sm focus:bg-white focus:border-manima-red focus:ring-1 focus:ring-manima-red outline-none transition-all placeholder-gray-400"
+                                                                placeholder="Feature..."
                                                             />
                                                             <button
                                                                 type="button"
                                                                 onClick={() => removeFeature(listIndex, featureIndex)}
-                                                                className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 p-2 rounded-md hover:bg-red-50 transition-all"
+                                                                className="text-gray-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-all"
                                                             >
-                                                                <Trash2 size={16} />
+                                                                <Trash2 size={14} />
                                                             </button>
                                                         </div>
                                                     ))}
                                                     {pkg.features.length === 0 && (
-                                                        <div className="text-center py-4 border-2 border-dashed border-gray-100 rounded-lg">
-                                                            <p className="text-xs text-gray-400">No features added yet</p>
+                                                        <div className="text-center py-2 border-2 border-dashed border-gray-100 rounded">
+                                                            <p className="text-[10px] text-gray-400">No features</p>
                                                         </div>
                                                     )}
                                                 </div>
+                                            </div>
+
+                                            {/* Remove Package Button */}
+                                            <div className="pt-6">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removePackage(listIndex)}
+                                                    className="text-gray-400 hover:text-white hover:bg-red-500 p-2 rounded-lg transition-all"
+                                                    title="Remove Package"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

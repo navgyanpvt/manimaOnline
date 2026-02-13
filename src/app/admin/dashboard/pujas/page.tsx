@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Loader2, Plus, Edit2, MapPin, Building2, Search } from "lucide-react";
 
 interface IPackage {
-    categoryName: "Standard" | "Premium";
+    name: string;
     features: string[];
     priceAmount: number;
 }

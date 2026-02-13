@@ -4,7 +4,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 /* Package Interface   */
 /* -------------------- */
 export interface IPackage {
-  categoryName: "Standard" | "Premium";
+  name: string;
   features: string[];
   priceAmount: number;
 }
@@ -27,10 +27,10 @@ export interface IPuja extends Document {
 /* -------------------- */
 const packageSchema = new Schema<IPackage>(
   {
-    categoryName: {
+    name: {
       type: String,
-      enum: ["Standard", "Premium"],
       required: true,
+      trim: true,
     },
     features: {
       type: [String],

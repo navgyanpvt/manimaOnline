@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 // Interface matches the API response structure
 interface Package {
-    categoryName: "Standard" | "Premium";
+    name: string;
     features: string[];
     priceAmount: number;
 }
@@ -31,7 +31,7 @@ export default function PujaServicePage() {
     const [templeTypeFilter, setTempleTypeFilter] = useState("");
 
     // Modal State
-    const [selectedPackage, setSelectedPackage] = useState<string>("Standard");
+    const [selectedPackage, setSelectedPackage] = useState<string>("");
 
     useEffect(() => {
         fetchPujas();
@@ -65,19 +65,20 @@ export default function PujaServicePage() {
 
     // Helper to get package details
     const getPackage = (puja: Puja, type: string) => {
-        return puja.packages.find(p => p.categoryName === type) || puja.packages[0];
+        return puja.packages.find(p => p.name === type) || puja.packages[0];
     };
 
     const handleBookNow = (puja: Puja) => {
         const pkg = getPackage(puja, selectedPackage);
-        router.push(`/checkout?pujaId=${puja._id}&packageName=${pkg.categoryName}`);
+        router.push(`/checkout?pujaId=${puja._id}&packageName=${pkg.name}`);
     };
 
     // Reset selected package when modal opens
     useEffect(() => {
-        if (selectedPuja) {
-            const hasPremium = selectedPuja.packages.some(p => p.categoryName === "Premium");
-            setSelectedPackage(hasPremium ? "Premium" : selectedPuja.packages[0].categoryName);
+        if (selectedPuja && selectedPuja.packages.length > 0) {
+            // Default to recommended or first package
+            const recommended = selectedPuja.packages.find(p => p.name === "Premium" || p.name === "Recommended");
+            setSelectedPackage(recommended ? recommended.name : selectedPuja.packages[0].name);
         }
     }, [selectedPuja]);
 
@@ -268,14 +269,14 @@ export default function PujaServicePage() {
                                     <div className="flex gap-3 bg-gray-50 p-1.5 rounded-xl border border-gray-100">
                                         {selectedPuja.packages.map((pkg) => (
                                             <button
-                                                key={pkg.categoryName}
-                                                onClick={() => setSelectedPackage(pkg.categoryName)}
-                                                className={`flex-1 py-3 rounded-lg text-sm font-bold transition-all duration-300 ${selectedPackage === pkg.categoryName
+                                                key={pkg.name}
+                                                onClick={() => setSelectedPackage(pkg.name)}
+                                                className={`flex-1 py-3 rounded-lg text-sm font-bold transition-all duration-300 ${selectedPackage === pkg.name
                                                     ? 'bg-white text-[#D35400] shadow-md ring-1 ring-[#D35400]/10 transform scale-[1.02]'
                                                     : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100/50'
                                                     }`}
                                             >
-                                                {pkg.categoryName}
+                                                {pkg.name}
                                             </button>
                                         ))}
                                     </div>

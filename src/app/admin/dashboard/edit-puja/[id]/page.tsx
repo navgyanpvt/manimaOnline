@@ -6,7 +6,7 @@ import { Loader2, Plus, Trash2, IndianRupee, Save, ArrowLeft } from "lucide-reac
 import Link from "next/link";
 
 interface Package {
-    categoryName: "Standard" | "Premium";
+    name: string;
     features: string[];
     priceAmount: number | string;
 }
@@ -28,8 +28,7 @@ export default function EditPujaPage() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
     const [packages, setPackages] = useState<Package[]>([
-        { categoryName: "Standard", features: [""], priceAmount: "" },
-        { categoryName: "Premium", features: [""], priceAmount: "" },
+        { name: "Standard", features: [""], priceAmount: "" },
     ]);
 
     useEffect(() => {
@@ -48,7 +47,8 @@ export default function EditPujaPage() {
                         });
                         setPreviewUrl(puja.imageUrl);
                         setPackages(puja.packages.map((p: any) => ({
-                            ...p,
+                            name: p.name || p.categoryName || "Custom",
+                            features: p.features || [],
                             priceAmount: p.priceAmount.toString()
                         })));
                     } else {
@@ -98,6 +98,16 @@ export default function EditPujaPage() {
     const addFeature = (pkgIndex: number) => {
         const newPackages = [...packages];
         newPackages[pkgIndex].features.push("");
+        setPackages(newPackages);
+    };
+
+    const addPackage = () => {
+        if (packages.length >= 3) return;
+        setPackages([...packages, { name: "", features: [""], priceAmount: "" }]);
+    };
+
+    const removePackage = (index: number) => {
+        const newPackages = packages.filter((_, i) => i !== index);
         setPackages(newPackages);
     };
 
@@ -223,31 +233,48 @@ export default function EditPujaPage() {
 
                         {/* Packages Section */}
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <h2 className="text-lg font-heading font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                <span className="w-1 h-5 bg-manima-gold rounded-full"></span>
-                                Packages
+                            <h2 className="text-lg font-heading font-semibold text-gray-800 mb-4 flex items-center justify-between">
+                                <span className="flex items-center gap-2">
+                                    <span className="w-1 h-5 bg-manima-gold rounded-full"></span>
+                                    Packages ({packages.length}/3)
+                                </span>
+                                <button
+                                    type="button"
+                                    onClick={addPackage}
+                                    disabled={packages.length >= 3}
+                                    className={`flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full transition-all ${packages.length >= 3
+                                        ? "text-gray-400 border border-gray-200 cursor-not-allowed"
+                                        : "text-manima-red hover:text-white hover:bg-manima-red border border-manima-red"
+                                        }`}
+                                >
+                                    <Plus size={14} /> ADD PACKAGE
+                                </button>
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {packages.map((pkg, listIndex) => (
                                     <div
-                                        key={pkg.categoryName}
-                                        className={`relative border rounded-2xl p-6 transition-all duration-300 hover:shadow-md ${pkg.categoryName === 'Premium'
-                                            ? 'bg-gradient-to-br from-amber-50 to-white border-amber-200/60'
-                                            : 'bg-white border-gray-200'
-                                            }`}
+                                        key={listIndex}
+                                        className="relative border rounded-2xl p-6 transition-all duration-300 hover:shadow-md bg-white border-gray-200"
                                     >
                                         <div className="flex justify-between items-start mb-6">
-                                            <div>
-                                                <h3 className={`font-bold text-lg ${pkg.categoryName === 'Premium' ? 'text-amber-700' : 'text-gray-800'}`}>
-                                                    {pkg.categoryName}
-                                                </h3>
-                                                <p className="text-xs text-gray-500 mt-1">Configure {pkg.categoryName.toLowerCase()} tier options</p>
+                                            <div className="flex-1 mr-2">
+                                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 block">Package Name</label>
+                                                <input
+                                                    type="text"
+                                                    value={pkg.name}
+                                                    onChange={(e) => handlePackageChange(listIndex, "name", e.target.value)}
+                                                    className="w-full px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-manima-red focus:border-manima-red outline-none text-gray-900 font-bold text-lg transition-all"
+                                                    placeholder="e.g. Standard"
+                                                />
                                             </div>
-                                            {pkg.categoryName === 'Premium' && (
-                                                <span className="px-2 py-1 bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-wider rounded-md">
-                                                    Recommended
-                                                </span>
-                                            )}
+                                            <button
+                                                type="button"
+                                                onClick={() => removePackage(listIndex)}
+                                                className="text-gray-400 hover:text-red-500 p-1.5 rounded-full hover:bg-red-50 transition-all"
+                                                title="Remove Package"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
                                         </div>
 
                                         <div className="space-y-5">

@@ -73,7 +73,7 @@ function CheckoutContent() {
                             setServiceName(foundPuja.name);
                             setLocationName(foundPuja.location);
                             // @ts-ignore
-                            const foundPackage = foundPuja.packages.find((p: any) => p.categoryName === packageName);
+                            const foundPackage = foundPuja.packages.find((p: any) => p.name === packageName);
                             if (foundPackage) {
                                 setFetchedPrice(foundPackage.priceAmount);
                             }
