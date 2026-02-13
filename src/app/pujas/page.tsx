@@ -228,8 +228,8 @@ export default function PujaServicePage() {
 
             {/* Puja Details Modal - Enhanced */}
             {selectedPuja && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-sm animate-in fade-in duration-300">
-                    <div className="bg-white w-full max-w-5xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-in zoom-in-95 slide-in-from-bottom-4 duration-300 relative border border-white/20">
+                <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="bg-white w-full max-w-5xl h-[90vh] sm:h-auto sm:max-h-[90vh] rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-in slide-in-from-bottom-10 sm:zoom-in-95 duration-300 relative border border-white/20">
                         {/* Close Button */}
                         <button
                             onClick={() => setSelectedPuja(null)}
@@ -238,8 +238,8 @@ export default function PujaServicePage() {
                             <X size={20} />
                         </button>
 
-                        {/* Left: Image */}
-                        <div className="md:w-1/2 h-48 md:h-auto bg-gray-200 relative group overflow-hidden">
+                        {/* Left: Image (Top on Mobile) */}
+                        <div className="w-full md:w-1/2 h-64 md:h-auto bg-gray-200 relative group shrink-0">
                             <img
                                 src={selectedPuja.imageUrl}
                                 alt={selectedPuja.name}
@@ -247,11 +247,11 @@ export default function PujaServicePage() {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
 
-                            <div className="absolute bottom-0 left-0 w-full p-8 text-white">
-                                <span className="bg-[#D35400] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider mb-3 inline-block shadow-lg">
+                            <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 text-white">
+                                <span className="bg-[#D35400] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider mb-2 md:mb-3 inline-block shadow-lg">
                                     {selectedPuja.templeType}
                                 </span>
-                                <h2 className="text-3xl md:text-4xl font-serif font-bold mb-2 leading-tight shadow-black drop-shadow-lg">{selectedPuja.name}</h2>
+                                <h2 className="text-2xl md:text-4xl font-serif font-bold mb-1 md:mb-2 leading-tight shadow-black drop-shadow-lg">{selectedPuja.name}</h2>
                                 <p className="flex items-center text-white/90 text-sm font-medium">
                                     <MapPin size={16} className="mr-2 text-[#F1C40F]" />
                                     {selectedPuja.location}
@@ -259,19 +259,19 @@ export default function PujaServicePage() {
                             </div>
                         </div>
 
-                        {/* Right: Details & Packages */}
-                        <div className="md:w-1/2 flex flex-col h-full bg-white relative">
+                        {/* Right: Details & Packages (Bottom on Mobile) */}
+                        <div className="w-full md:w-1/2 flex flex-col h-full bg-white relative overflow-hidden">
                             {/* Scrollable Content */}
-                            <div className="p-8 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
-                                <div className="mb-8">
-                                    <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Choose Your Package</h3>
+                            <div className="p-6 md:p-8 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+                                <div className="mb-6 md:mb-8">
+                                    <h3 className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-widest mb-3 md:mb-4">Choose Your Package</h3>
 
-                                    <div className="flex gap-3 bg-gray-50 p-1.5 rounded-xl border border-gray-100">
+                                    <div className="flex gap-2 md:gap-3 bg-gray-50 p-1 md:p-1.5 rounded-xl border border-gray-100 overflow-x-auto">
                                         {selectedPuja.packages.map((pkg) => (
                                             <button
                                                 key={pkg.name}
                                                 onClick={() => setSelectedPackage(pkg.name)}
-                                                className={`flex-1 py-3 rounded-lg text-sm font-bold transition-all duration-300 ${selectedPackage === pkg.name
+                                                className={`flex-1 min-w-[100px] py-2.5 md:py-3 rounded-lg text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap ${selectedPackage === pkg.name
                                                     ? 'bg-white text-[#D35400] shadow-md ring-1 ring-[#D35400]/10 transform scale-[1.02]'
                                                     : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100/50'
                                                     }`}
@@ -287,25 +287,26 @@ export default function PujaServicePage() {
                                         const activePkg = getPackage(selectedPuja, selectedPackage);
                                         return (
                                             <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                                                <div className="flex items-baseline gap-2 mb-8 pb-8 border-b border-gray-100">
-                                                    <span className="text-5xl font-bold text-[#2C0E0F] tracking-tight">
+                                                <div className="flex items-baseline gap-2 mb-6 md:mb-8 pb-6 md:pb-8 border-b border-gray-100">
+                                                    <span className="text-3xl md:text-5xl font-bold text-[#2C0E0F] tracking-tight">
                                                         ₹{activePkg.priceAmount.toLocaleString('en-IN')}
                                                     </span>
-                                                    <span className="text-gray-400 font-medium text-lg">/ puja</span>
+                                                    <span className="text-gray-400 font-medium text-sm md:text-lg">/ puja</span>
                                                 </div>
 
                                                 <div className="space-y-4">
-                                                    <h4 className="text-sm font-bold text-gray-900 uppercase tracking-wide flex items-center gap-2 mb-4">
-                                                        <ShieldCheck size={18} className="text-[#D35400]" />
+                                                    <h4 className="text-xs md:text-sm font-bold text-gray-900 uppercase tracking-wide flex items-center gap-2 mb-3 md:mb-4">
+                                                        <ShieldCheck size={16} className="text-[#D35400]" />
                                                         What's Included
                                                     </h4>
-                                                    <ul className="space-y-4">
+                                                    <ul className="space-y-3 md:space-y-4">
                                                         {activePkg.features.map((feature, i) => (
-                                                            <li key={i} className="flex items-start gap-3.5 group">
-                                                                <div className="min-w-[20px] h-[20px] rounded-full bg-green-50 flex items-center justify-center mt-0.5 group-hover:bg-green-100 transition-colors">
-                                                                    <Check size={12} className="text-green-600" />
+                                                            <li key={i} className="flex items-start gap-3 group">
+                                                                <div className="min-w-[18px] h-[18px] md:min-w-[20px] md:h-[20px] rounded-full bg-green-50 flex items-center justify-center mt-0.5 group-hover:bg-green-100 transition-colors">
+                                                                    <Check size={10} className="text-green-600 md:hidden" />
+                                                                    <Check size={12} className="text-green-600 hidden md:block" />
                                                                 </div>
-                                                                <span className="text-gray-600 text-[15px] leading-relaxed group-hover:text-gray-900 transition-colors">{feature}</span>
+                                                                <span className="text-gray-600 text-xs md:text-[15px] leading-relaxed group-hover:text-gray-900 transition-colors">{feature}</span>
                                                             </li>
                                                         ))}
                                                     </ul>
@@ -317,15 +318,16 @@ export default function PujaServicePage() {
                             </div>
 
                             {/* Footer / CTA */}
-                            <div className="p-6 border-t border-gray-100 bg-gray-50/50 backdrop-blur-sm z-10">
+                            <div className="p-4 md:p-6 border-t border-gray-100 bg-gray-50/50 backdrop-blur-sm z-10">
                                 <button
                                     onClick={() => handleBookNow(selectedPuja)}
-                                    className="w-full bg-[#D35400] hover:bg-[#b04600] text-white py-4 rounded-xl font-bold text-lg shadow-xl shadow-orange-500/20 hover:shadow-orange-500/30 transition-all flex items-center justify-center gap-2 active:scale-[0.98] group"
+                                    className="w-full bg-[#D35400] hover:bg-[#b04600] text-white py-3 md:py-4 rounded-xl font-bold text-base md:text-lg shadow-xl shadow-orange-500/20 hover:shadow-orange-500/30 transition-all flex items-center justify-center gap-2 active:scale-[0.98] group"
                                 >
                                     <span>Book This Ritual</span>
-                                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform md:hidden" />
+                                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform hidden md:block" />
                                 </button>
-                                <div className="flex items-center justify-center gap-2 mt-4 text-xs text-center text-gray-400">
+                                <div className="flex items-center justify-center gap-2 mt-3 md:mt-4 text-[10px] md:text-xs text-center text-gray-400">
                                     <ShieldCheck size={12} />
                                     <span>Secure Payment • 100% Verified Pandits</span>
                                 </div>
