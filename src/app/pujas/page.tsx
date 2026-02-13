@@ -109,41 +109,41 @@ export default function PujaServicePage() {
                 <div className="container mx-auto px-4 py-4">
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                         {/* Results Count Badge */}
-                        <div className="hidden md:flex items-center gap-2 bg-orange-50 text-[#D35400] px-4 py-2 rounded-full text-sm font-bold shadow-sm border border-orange-100">
+                        <div className="flex w-full md:w-auto items-center justify-center md:justify-start gap-2 bg-orange-50 text-[#D35400] px-4 py-2 rounded-full text-xs md:text-sm font-bold shadow-sm border border-orange-100 order-2 md:order-1">
                             <span className="w-2 h-2 rounded-full bg-[#D35400] animate-pulse"></span>
                             Showing {filteredPujas.length} {filteredPujas.length === 1 ? 'Ritual' : 'Rituals'}
                         </div>
 
                         {/* Filter Controls */}
-                        <div className="flex gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
+                        <div className="grid grid-cols-2 md:flex gap-3 w-full md:w-auto pb-1 md:pb-0 order-1 md:order-2">
                             {/* Location Filter */}
-                            <div className="relative min-w-[180px] flex-1 md:flex-none group">
+                            <div className="relative w-full md:w-[180px] group">
                                 <select
                                     value={locationFilter}
                                     onChange={(e) => setLocationFilter(e.target.value)}
-                                    className="w-full pl-10 pr-8 py-2.5 bg-white border-2 border-gray-100 rounded-full text-sm font-medium text-gray-700 hover:border-[#F1C40F] focus:border-[#D35400] focus:ring-4 focus:ring-orange-50 transition-all outline-none cursor-pointer appearance-none shadow-sm hover:shadow-md"
+                                    className="w-full pl-9 pr-4 py-2.5 bg-white border-2 border-gray-100 rounded-xl text-xs md:text-sm font-bold text-gray-700 hover:border-[#F1C40F] focus:border-[#D35400] focus:ring-4 focus:ring-orange-50 transition-all outline-none cursor-pointer appearance-none shadow-sm"
                                 >
                                     <option value="">All Locations</option>
                                     {uniqueLocations.map(loc => (
                                         <option key={loc} value={loc}>{loc}</option>
                                     ))}
                                 </select>
-                                <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-[#D35400] transition-colors" size={16} />
+                                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-[#D35400] transition-colors" size={14} />
                             </div>
 
                             {/* Temple Type Filter */}
-                            <div className="relative min-w-[180px] flex-1 md:flex-none group">
+                            <div className="relative w-full md:w-[180px] group">
                                 <select
                                     value={templeTypeFilter}
                                     onChange={(e) => setTempleTypeFilter(e.target.value)}
-                                    className="w-full pl-10 pr-8 py-2.5 bg-white border-2 border-gray-100 rounded-full text-sm font-medium text-gray-700 hover:border-[#F1C40F] focus:border-[#D35400] focus:ring-4 focus:ring-orange-50 transition-all outline-none cursor-pointer appearance-none shadow-sm hover:shadow-md"
+                                    className="w-full pl-9 pr-4 py-2.5 bg-white border-2 border-gray-100 rounded-xl text-xs md:text-sm font-bold text-gray-700 hover:border-[#F1C40F] focus:border-[#D35400] focus:ring-4 focus:ring-orange-50 transition-all outline-none cursor-pointer appearance-none shadow-sm"
                                 >
-                                    <option value="">All Temple Types</option>
+                                    <option value="">All Temples</option>
                                     {uniqueTempleTypes.map(type => (
                                         <option key={type} value={type}>{type}</option>
                                     ))}
                                 </select>
-                                <Filter className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-[#D35400] transition-colors" size={16} />
+                                <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-[#D35400] transition-colors" size={14} />
                             </div>
                         </div>
                     </div>
