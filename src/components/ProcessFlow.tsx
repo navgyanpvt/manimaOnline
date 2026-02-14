@@ -22,7 +22,7 @@ const steps = [
 
 const ProcessFlow = () => {
     return (
-        <section id="how-it-works" className="bg-[#FDFAF0] relative py-16">
+        <section id="how-it-works" className="bg-[#FDFAF0] relative pt-16 pb-0">
             <div className="container mx-auto px-6">
                 <h2 className="section-title">How It Works</h2>
 
@@ -45,7 +45,7 @@ const ProcessFlow = () => {
                 </div>
             </div>
 
-            <div className="w-full h-[60px] bg-[url('/assets/border-pattern.png')] bg-repeat-x bg-[length:auto_100%] mt-8 opacity-90">
+            <div className="w-full h-[60px] bg-[url('/assets/border-pattern.png')] bg-repeat-x bg-[length:auto_100%] block m-0 p-0">
             </div>
         </section>
     );
