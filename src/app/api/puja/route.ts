@@ -34,6 +34,10 @@ export async function POST(req: Request) {
     }
 
     if (fileToUpload) {
+      if (!imagekit) {
+        throw new Error("ImageKit is not configured. Please check environment variables.");
+      }
+
       let fileData: string | Buffer = fileToUpload as string;
 
       // If it's a File object (from formData), convert to Buffer
@@ -133,6 +137,10 @@ export async function PATCH(req: Request) {
 
       // Only upload if it's new file data (not an existing URL)
       if (typeof fileToUpload !== 'string' || !fileToUpload.startsWith('http')) {
+        if (!imagekit) {
+          throw new Error("ImageKit is not configured. Please check environment variables.");
+        }
+
         const uploadResponse = await imagekit.upload({
           file: fileData,
           fileName: `puja-${Date.now()}`,

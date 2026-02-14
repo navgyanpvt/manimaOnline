@@ -121,7 +121,7 @@ const Hero = () => {
         </h1>
 
         <p className="text-[1.25rem] mb-10 text-[#ffffff]/80 max-w-[600px] mx-auto">
-          Experience sacred rituals from your home — because faith should never feel far away.        </p>
+          Experience sacred rituals from your home because faith should never feel far away.        </p>
 
         <div className="flex flex-col md:flex-row gap-6 justify-center mb-16">
           <button

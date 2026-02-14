@@ -10,6 +10,7 @@ interface Service {
     name: string;
     details: string;
     link?: string;
+    comingSoon?: boolean;
 }
 
 interface ServicesProps {
@@ -31,22 +32,46 @@ const Services = ({ onServiceClick }: ServicesProps) => {
 
     useEffect(() => {
         const fetchServices = async () => {
+            // Static services definition
+            const ritualPuja: Service = {
+                _id: 'ritual-puja-static',
+                name: 'Puja for Special Occasions',
+                details: 'Perform authentic Vedic Pujas with experienced Pandits at sacred temples. Book online for smooth and divine experiences.',
+                link: '/pujas'
+            };
+
+            const asthiVisarjan: Service = {
+                _id: 'online-asthi-visarjan',
+                name: 'Online Asthi Visarjan',
+                details: 'Perform Asthi Visarjan rituals remotely with complete Vedic procedures. Coming soon.',
+                comingSoon: true
+            };
+
+            const pindDaan: Service = {
+                _id: 'online-pind-daan',
+                name: 'Online Pind Daan',
+                details: 'Perform Pind Daan for your ancestors from anywhere. Coming soon.',
+                comingSoon: true
+            };
+
+            const bookPandit: Service = {
+                _id: 'book-a-pandit',
+                name: 'Book a Pandit',
+                details: 'Connect with knowledgeable Pandits for all your religious needs. Coming soon.',
+                comingSoon: true
+            };
+
+            let apiServices: Service[] = [];
+
             try {
                 const res = await fetch('/api/services');
                 if (res.ok) {
-                    const data = await res.json();
-                    // Add static "Ritual Puja" service at the beginning
-                    const ritualPuja: Service = {
-                        _id: 'ritual-puja-static',
-                        name: 'Ritual Puja',
-                        details: 'Perform authentic Vedic Pujas with experienced Pandits at sacred temples. Book online for smooth and divine experiences.',
-                        link: '/pujas'
-                    };
-                    setServices([ritualPuja, ...data]);
+                    apiServices = await res.json();
                 }
             } catch (error) {
                 console.error("Failed to fetch services:", error);
             } finally {
+                setServices([ritualPuja, asthiVisarjan, pindDaan, bookPandit, ...apiServices]);
                 setLoading(false);
             }
         };
@@ -58,30 +83,45 @@ const Services = ({ onServiceClick }: ServicesProps) => {
             <div className="container mx-auto px-6">
                 <h2 className="section-title">Services</h2>
 
-                <div className="flex flex-wrap justify-center gap-8 mb-12">
+                <div className="flex justify-center gap-8 mb-12">
                     {loading ? (
                         <div className="w-full text-center py-20 text-gray-500">Loading services...</div>
                     ) : services.length > 0 ? (
                         services.slice(0, 4).map((service, index) => (
                             <div
                                 key={service._id}
-                                className="flex-1 min-w-[280px] bg-white rounded-lg shadow-sm transition-all duration-300 ease-in-out border-t-[5px] border-[#DAA520] relative group hover:-translate-y-2 hover:shadow-lg cursor-pointer"
+                                className={`flex-1 min-w-[280px] bg-white rounded-lg shadow-sm transition-all duration-300 ease-in-out border-t-[5px] border-[#DAA520] relative group hover:-translate-y-2 hover:shadow-lg ${service.comingSoon ? 'cursor-default opacity-80' : 'cursor-pointer'}`}
                             >
-                                <Link href={service.link || `/services?serviceId=${service._id}`} className="block h-full w-full py-10 px-6 text-center">
-                                    <div className="absolute -top-[15px] left-1/2 -translate-x-1/2 bg-[#C0392B] text-white w-[30px] h-[30px] rounded-full flex items-center justify-center font-bold font-serif shadow-sm">
-                                        {index + 1}
+                                {service.comingSoon ? (
+                                    <div className="block h-full w-full py-10 px-6 text-center relative flex flex-col items-center">
+                                        <div className="absolute -top-[15px] left-1/2 -translate-x-1/2 bg-[#C0392B] text-white w-[30px] h-[30px] rounded-full flex items-center justify-center font-bold font-serif shadow-sm">
+                                            {index + 1}
+                                        </div>
+                                        <h3 className="mb-4 text-[#2C3E50] text-xl font-bold">{service.name}</h3>
+                                        <p className="text-[#566573] text-[0.95rem] leading-relaxed line-clamp-3">
+                                            {service.details}
+                                        </p>
+                                        <div className="mt-auto pt-6">
+                                            <span className="bg-gray-500 text-white text-xs px-2 py-1 rounded">Coming Soon</span>
+                                        </div>
                                     </div>
-                                    <h3 className="mb-4 text-[#2C3E50] text-xl font-bold">{service.name}</h3>
-                                    <p className="text-[#566573] text-[0.95rem] leading-relaxed line-clamp-3">
-                                        {service.details}
-                                    </p>
+                                ) : (
+                                    <Link href={service.link || `/services?serviceId=${service._id}`} className="block h-full w-full py-10 px-6 text-center">
+                                        <div className="absolute -top-[15px] left-1/2 -translate-x-1/2 bg-[#C0392B] text-white w-[30px] h-[30px] rounded-full flex items-center justify-center font-bold font-serif shadow-sm">
+                                            {index + 1}
+                                        </div>
+                                        <h3 className="mb-4 text-[#2C3E50] text-xl font-bold">{service.name}</h3>
+                                        <p className="text-[#566573] text-[0.95rem] leading-relaxed line-clamp-3">
+                                            {service.details}
+                                        </p>
 
-                                    <div className="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <span className="text-[#D35400] font-medium text-sm border-b border-[#D35400]">
-                                            Click to know
-                                        </span>
-                                    </div>
-                                </Link>
+                                        <div className="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <span className="text-[#D35400] font-medium text-sm border-b border-[#D35400]">
+                                                Click to know
+                                            </span>
+                                        </div>
+                                    </Link>
+                                )}
                             </div>
                         ))
                     ) : (
