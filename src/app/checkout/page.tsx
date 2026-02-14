@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Loader2, CreditCard, ScanLine, ArrowLeft, ShieldCheck, MapPin, Calendar, CheckCircle2, X } from 'lucide-react';
+import { Loader2, CreditCard, ScanLine, ArrowLeft, ShieldCheck, MapPin, Calendar, CheckCircle2, X, Tag } from 'lucide-react';
 import Image from 'next/image';
 
 interface ClientProfile {
@@ -28,6 +28,7 @@ function CheckoutContent() {
     const [serviceName, setServiceName] = useState("");
     const [locationName, setLocationName] = useState("");
     const [loading, setLoading] = useState(true);
+    const [verifying, setVerifying] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'qr'>('qr'); // Default to QR
     const [isProcessing, setIsProcessing] = useState(false);
     const [fetchedPrice, setFetchedPrice] = useState<number>(0);
@@ -36,6 +37,7 @@ function CheckoutContent() {
     const [showQRModal, setShowQRModal] = useState(false);
     const [transactionId, setTransactionId] = useState("");
     const [qrError, setQrError] = useState("");
+    const [imageError, setImageError] = useState(false); // Track if specific QR exists
 
     // Error Modal State
     const [showErrorModal, setShowErrorModal] = useState(false);
@@ -45,9 +47,61 @@ function CheckoutContent() {
 
     // Pricing Logic
     const basePrice = fetchedPrice;
+
+    // Coupon State
+    const [couponCode, setCouponCode] = useState("");
+    const [couponError, setCouponError] = useState("");
+    const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
+    const [discountAmount, setDiscountAmount] = useState(0);
+
+    // Calculate GST on the discounted price or base price? 
+    // Usually GST is on the final taxable value. 
+    // If discount is applied on base price: (Base - Discount) + GST
+    // Let's assume discount reduces taxable amount.
+    const taxableAmount = Math.max(0, basePrice - discountAmount);
     const gstRate = paymentMethod === 'razorpay' ? 0.18 : 0;
-    const gstAmount = basePrice * gstRate;
-    const totalAmount = basePrice + gstAmount;
+    const gstAmount = taxableAmount * gstRate;
+    const totalAmount = taxableAmount + gstAmount;
+
+    const handleApplyCoupon = async () => {
+        if (!couponCode.trim()) {
+            setCouponError("Please enter a coupon code");
+            return;
+        }
+        setCouponError("");
+        setVerifying(true);
+
+        try {
+            const res = await fetch("/api/coupons/verify", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code: couponCode, orderTotal: basePrice })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                setAppliedCoupon(data.data);
+                setDiscountAmount(data.data.discountAmount);
+                setCouponError("");
+            } else {
+                setCouponError(data.error || "Invalid coupon");
+                setAppliedCoupon(null);
+                setDiscountAmount(0);
+            }
+        } catch (error) {
+            setCouponError("Failed to verify coupon");
+        } finally {
+            setVerifying(false); // Use independent verify state
+        }
+    };
+
+    const removeCoupon = () => {
+        setAppliedCoupon(null);
+        setDiscountAmount(0);
+        setCouponCode("");
+        setCouponError("");
+    };
 
     useEffect(() => {
         const initCheckout = async () => {
@@ -143,6 +197,7 @@ function CheckoutContent() {
         }
 
         if (paymentMethod === 'qr') {
+            setImageError(false); // Reset error state on open
             setShowQRModal(true);
             return;
         }
@@ -367,11 +422,59 @@ function CheckoutContent() {
                                     </div>
                                 </div>
 
+                                {/* Coupon Section */}
+                                <div className="mb-6">
+                                    {!appliedCoupon ? (
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                value={couponCode}
+                                                onChange={(e) => setCouponCode(e.target.value)}
+                                                placeholder="Have a coupon?"
+                                                className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-[#D35400] outline-none uppercase"
+                                            />
+                                            <button
+                                                onClick={handleApplyCoupon}
+                                                disabled={!couponCode || verifying}
+                                                className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-black disabled:opacity-50 flex items-center gap-2"
+                                            >
+                                                {verifying ? <Loader2 size={14} className="animate-spin" /> : "Apply"}
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="bg-green-50 border border-green-100 p-3 rounded-lg flex items-center justify-between">
+                                            <div>
+                                                <p className="text-green-700 font-bold text-sm flex items-center gap-1">
+                                                    <Tag size={14} /> {appliedCoupon.code}
+                                                </p>
+                                                <p className="text-green-600 text-xs">
+                                                    Saved ₹{discountAmount.toLocaleString('en-IN')}
+                                                </p>
+                                            </div>
+                                            <button
+                                                onClick={removeCoupon}
+                                                className="text-gray-400 hover:text-red-500"
+                                            >
+                                                <X size={16} />
+                                            </button>
+                                        </div>
+                                    )}
+                                    {couponError && (
+                                        <p className="text-red-500 text-xs mt-1.5">{couponError}</p>
+                                    )}
+                                </div>
+
                                 <div className="bg-gray-50 p-4 rounded-xl space-y-3 mb-8">
                                     <div className="flex justify-between items-center text-sm">
                                         <span className="text-gray-500">Base Price</span>
                                         <span className="font-medium text-gray-800">₹{basePrice.toLocaleString('en-IN')}</span>
                                     </div>
+                                    {discountAmount > 0 && (
+                                        <div className="flex justify-between items-center text-sm text-green-600">
+                                            <span>Discount</span>
+                                            <span className="font-medium">-₹{discountAmount.toLocaleString('en-IN')}</span>
+                                        </div>
+                                    )}
                                     {gstAmount > 0 && (
                                         <div className="flex justify-between items-center text-sm text-[#D35400]">
                                             <span>GST (18%)</span>
@@ -437,11 +540,31 @@ function CheckoutContent() {
 
                         {/* Content */}
                         <div className="p-6 flex flex-col items-center">
-                            <div className="bg-white p-2 rounded-xl border-2 border-dashed border-[#D35400] mb-6">
-                                {/* Replace with actual QR Code image */}
-                                <div className="w-48 h-48 bg-gray-100 flex items-center justify-center text-gray-400 font-mono text-sm">
-                                    [QR CODE IMAGE]
-                                </div>
+                            <div className="bg-white p-4 rounded-xl border-2 border-dashed border-[#D35400] mb-6 flex flex-col items-center justify-center min-h-[200px]">
+                                {!imageError ? (
+                                    <>
+                                        <div className="relative w-48 h-48 mb-2">
+                                            <Image
+                                                src={`/QR/${totalAmount}.jpeg`}
+                                                alt={`QR Code for ₹${totalAmount}`}
+                                                fill
+                                                className="object-contain"
+                                                onError={() => setImageError(true)}
+                                                unoptimized
+                                            />
+                                        </div>
+                                        <p className="text-sm font-bold text-gray-700 mt-2">
+                                            UPI ID: <span className="select-all">43939238111@sbi</span>
+                                        </p>
+                                    </>
+                                ) : (
+                                    <div className="text-center p-4">
+                                        <p className="text-gray-500 text-sm mb-2">Scan & Pay to UPI ID</p>
+                                        <p className="text-2xl font-bold text-[#2C0E0F] select-all break-all">
+                                            43939238111@sbi
+                                        </p>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="text-center mb-6">

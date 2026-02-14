@@ -16,7 +16,8 @@ import {
     UserPlus,
     PackagePlus,
     ChevronDown,
-    Plus
+    Plus,
+    Tag
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -44,6 +45,7 @@ export default function Sidebar() {
         { href: "/admin/dashboard/add-pandit", label: "Add Pandit", icon: UserCog },
         { href: "/admin/dashboard/services", label: "All Services", icon: PackagePlus },
         { href: "/admin/dashboard/pujas", label: "All Pujas", icon: PackagePlus },
+        { href: "/admin/dashboard/coupons", label: "Coupons", icon: Tag },
     ];
 
     return (
