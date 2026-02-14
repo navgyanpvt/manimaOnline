@@ -35,6 +35,17 @@ export async function GET() {
             return NextResponse.json({ error: "Invalid Client Token" }, { status: 401 });
         }
 
+        // Ensure models are registered involved in populate
+        console.log("Models loaded:", {
+            Agent: !!mongoose.models.Agent,
+            Service: !!mongoose.models.Service,
+            Location: !!mongoose.models.Location,
+            Puja: !!mongoose.models.Puja
+        });
+
+        // Force usage of imported models to prevent tree-shaking (though explicit import should be enough)
+        const _models = [Agent, Service, Location];
+
         const bookings = await Booking.find({ client: clientId as any })
             .populate("service", "name")
             .populate("location", "name")

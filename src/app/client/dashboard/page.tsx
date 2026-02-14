@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ClientBookingsList from "@/components/client/ClientBookingsList";
 import ProfilePage from "./profile/page";
+import PujaModal from "@/components/PujaModal";
 
 interface ClientProfile {
     _id: string;
@@ -28,6 +29,7 @@ export default function ClientDashboard() {
     const [loading, setLoading] = useState(true);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar state
     const [activeTab, setActiveTab] = useState("dashboard");
+    const [showPujaModal, setShowPujaModal] = useState(false);
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -102,13 +104,13 @@ export default function ClientDashboard() {
                                         Your spiritual journey continues here. Book a ritual for your ancestors or manage your ongoing requests.
                                     </p>
                                     <div className="pt-4 flex flex-wrap gap-4">
-                                        <button
+                                        {/* <button
                                             onClick={() => router.push('/client/dashboard/book')}
                                             className="px-8 py-3.5 bg-[#DAA520] text-[#2C0E0F] font-bold rounded-xl hover:bg-[#F1C40F] transition-all shadow-[0_0_20px_rgba(218,165,32,0.3)] hover:shadow-[0_0_30px_rgba(218,165,32,0.5)] active:scale-95 flex items-center gap-2"
                                         >
                                             <Calendar size={20} />
                                             Book New Ritual
-                                        </button>
+                                        </button> */}
                                         <button
                                             onClick={() => router.push('/client/dashboard/bookpuja')}
                                             className="px-8 py-3.5 bg-[#2C0E0F] text-[#DAA520] border border-[#DAA520] font-bold rounded-xl hover:bg-[#DAA520] hover:text-[#2C0E0F] transition-all shadow-lg active:scale-95 flex items-center gap-2"
@@ -218,7 +220,10 @@ export default function ClientDashboard() {
                                     <p className="text-[#2C0E0F]/70 text-sm mb-6 max-w-xs mx-auto">
                                         Our support team is available 24/7 to help you with your booking or any questions.
                                     </p>
-                                    <button className="w-full py-3 bg-white border border-[#DAA520]/30 text-[#2C0E0F] font-bold rounded-xl hover:bg-[#DAA520] hover:text-white transition-all shadow-sm">
+                                    <button
+                                        onClick={() => setShowPujaModal(true)}
+                                        className="w-full py-3 bg-white border border-[#DAA520]/30 text-[#2C0E0F] font-bold rounded-xl hover:bg-[#DAA520] hover:text-white transition-all shadow-sm"
+                                    >
                                         Contact Support
                                     </button>
                                 </div>
@@ -235,7 +240,7 @@ export default function ClientDashboard() {
                 );
             case "history":
                 return (
-                    <div className="max-w-4xl">
+                    <div className="w-full animate-in fade-in zoom-in-95 duration-500">
                         <ClientBookingsList />
                     </div>
                 );
@@ -372,6 +377,11 @@ export default function ClientDashboard() {
                     </div>
                 </main>
             </div>
+
+            <PujaModal
+                isOpen={showPujaModal}
+                onClose={() => setShowPujaModal(false)}
+            />
         </div >
     );
 }

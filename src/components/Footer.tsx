@@ -45,8 +45,8 @@ const Footer: React.FC<FooterProps> = ({ onOpenPuja }) => {
                         {[
                             { name: 'Home', href: '#hero' },
                             { name: 'About Us', href: '#about' },
-                            { name: 'Ritual Packages', href: '/services' },
-                            // { name: 'FAQs', href: '#faq' },
+                            { name: 'Ritual Packages', href: '/pujas' },
+                            { name: 'FAQs', href: '#faq' },
                             { name: 'Privacy Policy', href: '/privacy-policy' },
                             { name: 'Terms & Conditions', href: '/terms-conditions' },
                             { name: 'Agent Login', href: '/agent/login' }

@@ -35,6 +35,10 @@ export default function AdminLayout({
                 return "Add Puja";
             case "/admin/dashboard/pujas":
                 return "All Pujas";
+            case "/admin/dashboard/add-coupon":
+                return "Add Coupon";
+            case "/admin/dashboard/coupons":
+                return "Coupons";
             default:
                 if (pathname?.startsWith("/admin/dashboard/edit-puja/")) {
                     return "Edit Puja";
