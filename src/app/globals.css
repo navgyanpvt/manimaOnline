@@ -177,7 +177,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Hero Background Utility to avoid Tailwind arbitrary value build errors */
 .hero-bg {
-  background-image: url('/assets/HeroTempleMobile.jpeg');
+  background-image: url('/assets/android_hero_section.png');
 }
 
 @media (min-width: 768px) {

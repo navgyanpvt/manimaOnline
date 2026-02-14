@@ -49,24 +49,12 @@ const AboutManima = () => {
                                     <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="3" fill="none" />
                                 </svg>
                             </h2>
-                            <p className="mt-4 text-xl md:text-2xl text-[#582C12] italic font-serif font-bold">"When you can't be there, your devotion still can"</p>
+                            <p className="mt-4 text-xl md:text-xl text-[#582C12] italic font-serif font-bold">"When you can't be there, your devotion still can"</p>
                         </div>
 
                         {/* Description */}
-                        <div className="space-y-6 text-lg md:text-xl text-[#000000] font-body leading-relaxed max-w-2xl mx-auto" data-aos="fade-up">
-                            <p>
-                                <span className="text-4xl text-[#000000] font-heading inline-block mr-.5">A</span>t Manima, we bridge the gap between tradition and technology, bringing sacred rituals directly to your doorstep. Our mission is to preserve the sanctity of ancient customs while providing a seamless, modern experience for devotees worldwide.
-                            </p>
-                            <p>
-                                Whether it's Pinda Daana, Asthi Visarjan, or personalized Pujas, our dedicated team of experienced Pandits ensures every ceremony is performed with the utmost reverence and Vedic precision.
-                            </p>
-                        </div>
-
-                        {/* Signature */}
-                        <div className="mt-12 flex items-center justify-center gap-4" data-aos="fade-up" data-aos-delay="100">
-                            <div className="h-px w-12 bg-manima-gold/50"></div>
-                            <span className="font-heading text-2xl text-[#fddc05] italic">Preserving Tradition, honoring Souls</span>
-                            <div className="h-px w-12 bg-manima-gold/50"></div>
+                        <div className="space-y-6 text-s md:text-lg text-[#000000] font-body leading-relaxed max-w-2xl mx-auto" data-aos="fade-up">
+                            <p className='text-justify'>At Manima, we believe distance should never come between faith and responsibility. We help families stay connected to sacred traditions by making spiritual services <strong>simple</strong>, <strong>trusted</strong>, and <strong>accessible</strong>. For us, it is not just about services; it is about preserving connection, respect, and continuity of tradition for modern families.</p>
                         </div>
                     </div>
                 </div>

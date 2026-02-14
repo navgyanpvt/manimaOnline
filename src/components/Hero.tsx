@@ -116,12 +116,9 @@ const Hero = () => {
           className="flex justify-center mx-auto mb-6 w-[250px] sm:w-[320px] md:w-[550px] aspect-[4.39/1] opacity-0"
         ></div>
 
-        <h1 className="text-4xl md:text-[2rem] mt-8 mb-6 leading-[1.2] text-[#f1c40f]/100 drop-shadow-lg font-normal">
+        <h1 className="text-2xl md:text-[2rem] mt-4 mb-6 leading-[1.2] text-[#f1c40f]/100 drop-shadow-lg font-normal">
           For Every Ritual That Matters
         </h1>
-
-        <p className="text-[1.25rem] mb-10 text-[#ffffff]/80 max-w-[600px] mx-auto">
-          Experience sacred rituals from your home because faith should never feel far away.        </p>
 
         <div className="flex flex-col md:flex-row gap-6 justify-center mb-16">
           <button

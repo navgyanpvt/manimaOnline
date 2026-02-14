@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-// import './Services.css'; // Removed custom CSS
-import { Calendar, Video, FileCheck, Users, Sparkles, Waves, Flame, HandHelping, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 
 interface Service {
@@ -11,20 +9,12 @@ interface Service {
     details: string;
     link?: string;
     comingSoon?: boolean;
+    image?: string;
 }
 
 interface ServicesProps {
     onServiceClick?: (id: string) => void;
 }
-
-const getIconForService = (name: string) => {
-    const lowerName = name.toLowerCase();
-    if (lowerName.includes('pind')) return <HandHelping size={48} />; // Offering
-    if (lowerName.includes('ashthi') || lowerName.includes('visarjan')) return <Waves size={48} />; // River/Water
-    if (lowerName.includes('puja')) return <Flame size={48} />; // Fire/Ritual
-    if (lowerName.includes('pandit')) return <BookOpen size={48} />; // Knowledge/Scripture
-    return <Sparkles size={48} />;
-};
 
 const Services = ({ onServiceClick }: ServicesProps) => {
     const [services, setServices] = useState<Service[]>([]);
@@ -36,29 +26,33 @@ const Services = ({ onServiceClick }: ServicesProps) => {
             const ritualPuja: Service = {
                 _id: 'ritual-puja-static',
                 name: 'Puja for Special Occasions',
-                details: 'Perform authentic Vedic Pujas with experienced Pandits at sacred temples. Book online for smooth and divine experiences.',
-                link: '/pujas'
+                details: 'Perform authentic Vedic Pujas with experienced Pandits.',
+                link: '/pujas',
+                image: '/assets/special_puja.png'
             };
 
             const asthiVisarjan: Service = {
                 _id: 'online-asthi-visarjan',
                 name: 'Online Asthi Visarjan',
-                details: 'Perform Asthi Visarjan rituals remotely with complete Vedic procedures. Coming soon.',
-                comingSoon: true
+                details: 'Perform Asthi Visarjan rituals remotely.',
+                comingSoon: true,
+                image: '/assets/asthi_visarjan.png'
             };
 
             const pindDaan: Service = {
                 _id: 'online-pind-daan',
                 name: 'Online Pind Daan',
-                details: 'Perform Pind Daan for your ancestors from anywhere. Coming soon.',
-                comingSoon: true
+                details: 'Perform Pind Daan for your ancestors.',
+                comingSoon: true,
+                image: '/assets/pind_daan_websiteimg.png'
             };
 
             const bookPandit: Service = {
                 _id: 'book-a-pandit',
                 name: 'Book a Pandit',
-                details: 'Connect with knowledgeable Pandits for all your religious needs. Coming soon.',
-                comingSoon: true
+                details: 'Connect with knowledgeable Pandits.',
+                comingSoon: true,
+                image: '/assets/book_pandit.png'
             };
 
             let apiServices: Service[] = [];
@@ -71,7 +65,12 @@ const Services = ({ onServiceClick }: ServicesProps) => {
             } catch (error) {
                 console.error("Failed to fetch services:", error);
             } finally {
-                setServices([ritualPuja, asthiVisarjan, pindDaan, bookPandit, ...apiServices]);
+                // Ensure apiServices also have images if possible or use default
+                const processedApiServices = apiServices.map(s => ({
+                    ...s,
+                    image: s.image || '/assets/manima_logo.png' // Fallback
+                }));
+                setServices([ritualPuja, asthiVisarjan, pindDaan, bookPandit, ...processedApiServices]);
                 setLoading(false);
             }
         };
@@ -79,64 +78,85 @@ const Services = ({ onServiceClick }: ServicesProps) => {
     }, []);
 
     return (
-        <section id="Services" className="bg-[#FDFAF0] relative py-16 scroll-mt-28">
-            <div className="container mx-auto px-6">
-                <h2 className="section-title">Services</h2>
+        <section id="Services" className="bg-[#FDFAF0] relative py-12 scroll-mt-20">
+            <div className="container mx-auto px-4">
+                <div className="text-center mb-8">
+                    <h2 className="text-[#2C3E50] text-2xl font-serif font-bold tracking-wide uppercase relative inline-block">
+                        Featured Services
+                        <span className="block h-1 w-12 bg-[#DAA520] mx-auto mt-2 rounded-full"></span>
+                    </h2>
+                </div>
 
-                <div className="flex justify-center gap-8 mb-12">
-                    {loading ? (
-                        <div className="w-full text-center py-20 text-gray-500">Loading services...</div>
-                    ) : services.length > 0 ? (
-                        services.slice(0, 4).map((service, index) => (
-                            <div
-                                key={service._id}
-                                className={`flex-1 min-w-[280px] bg-white rounded-lg shadow-sm transition-all duration-300 ease-in-out border-t-[5px] border-[#DAA520] relative group hover:-translate-y-2 hover:shadow-lg ${service.comingSoon ? 'cursor-default opacity-80' : 'cursor-pointer'}`}
-                            >
+                {loading ? (
+                    <div className="w-full text-center py-20 text-gray-500">Loading services...</div>
+                ) : services.length > 0 ? (
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        {services.slice(0, 4).map((service, index) => (
+                            <div key={service._id} className={`relative group ${service.comingSoon ? 'opacity-90' : ''}`}>
                                 {service.comingSoon ? (
-                                    <div className="block h-full w-full py-10 px-6 text-center relative flex flex-col items-center">
-                                        <div className="absolute -top-[15px] left-1/2 -translate-x-1/2 bg-[#C0392B] text-white w-[30px] h-[30px] rounded-full flex items-center justify-center font-bold font-serif shadow-sm">
-                                            {index + 1}
-                                        </div>
-                                        <h3 className="mb-4 text-[#2C3E50] text-xl font-bold">{service.name}</h3>
-                                        <p className="text-[#566573] text-[0.95rem] leading-relaxed line-clamp-3">
-                                            {service.details}
-                                        </p>
-                                        <div className="mt-auto pt-6">
-                                            <span className="bg-gray-500 text-white text-xs px-2 py-1 rounded">Coming Soon</span>
+                                    <div className="block h-64 w-full rounded-[2rem] overflow-hidden relative shadow-md cursor-default">
+                                        {/* Background Image */}
+                                        <div
+                                            className="absolute inset-0 bg-cover bg-center transition-transform duration-700"
+                                            style={{ backgroundImage: `url(${service.image})` }}
+                                        />
+                                        {/* Overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+
+                                        {/* Content */}
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center z-10">
+                                            {/* Capsule Container for Coming Soon */}
+                                            <div className="bg-white/20 backdrop-blur-sm border border-white/30 px-4 py-1.5 rounded-full mb-3 shadow-lg">
+                                                <span className="text-white text-[10px] tracking-[0.2em] font-medium uppercase drop-shadow-sm block">COMING SOON</span>
+                                            </div>
+
+                                            <h3 className="text-white text-2xl font-[family-name:var(--font-dm-serif)] leading-tight drop-shadow-md">
+                                                {service.name.split(' ').map((word, i) => (
+                                                    <span key={i} className="block">{word}</span>
+                                                ))}
+                                            </h3>
                                         </div>
                                     </div>
                                 ) : (
-                                    <Link href={service.link || `/services?serviceId=${service._id}`} className="block h-full w-full py-10 px-6 text-center">
-                                        <div className="absolute -top-[15px] left-1/2 -translate-x-1/2 bg-[#C0392B] text-white w-[30px] h-[30px] rounded-full flex items-center justify-center font-bold font-serif shadow-sm">
-                                            {index + 1}
-                                        </div>
-                                        <h3 className="mb-4 text-[#2C3E50] text-xl font-bold">{service.name}</h3>
-                                        <p className="text-[#566573] text-[0.95rem] leading-relaxed line-clamp-3">
-                                            {service.details}
-                                        </p>
+                                    <Link
+                                        href={service.link || `/services?serviceId=${service._id}`}
+                                        className="block h-64 w-full rounded-[2rem] overflow-hidden relative shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                                    >
+                                        {/* Background Image */}
+                                        <div
+                                            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                                            style={{ backgroundImage: `url(${service.image})` }}
+                                        />
+                                        {/* Overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
 
-                                        <div className="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <span className="text-[#D35400] font-medium text-sm border-b border-[#D35400]">
-                                                Click to know
-                                            </span>
+                                        {/* Content */}
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center z-10">
+                                            {/* Capsule Container for Explore */}
+                                            <div className="bg-white/20 backdrop-blur-sm border border-white/30 px-4 py-1.5 rounded-full mb-3 shadow-lg group-hover:bg-white/30 transition-colors">
+                                                <span className="text-white text-[10px] tracking-[0.2em] font-medium uppercase drop-shadow-sm block">EXPLORE</span>
+                                            </div>
+
+                                            <h3 className="text-white text-2xl font-[family-name:var(--font-dm-serif)] leading-tight drop-shadow-md">
+                                                {service.name.split(' ').map((word, i) => (
+                                                    <span key={i} className="block">{word}</span>
+                                                ))}
+                                            </h3>
                                         </div>
                                     </Link>
                                 )}
                             </div>
-                        ))
-                    ) : (
-                        <div className="w-full text-center py-10 text-gray-400">No services available at the moment.</div>
-                    )}
-                </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="w-full text-center py-10 text-gray-400">No services available.</div>
+                )}
 
-                <div className="text-center">
-                    <Link href="/services" className="inline-block px-8 py-3 bg-[#D35400] text-white font-bold rounded-full hover:bg-[#E67E22] transition-colors duration-300 shadow-md transform hover:scale-105">
-                        See More Services
+                <div className="text-center mt-8">
+                    <Link href="/services" className="inline-block p-3 bg-[#D35400] text-white rounded-full hover:bg-[#E67E22] transition-colors duration-300 shadow-lg group">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down group-hover:translate-y-1 transition-transform"><path d="m6 9 6 6 6-6" /></svg>
                     </Link>
                 </div>
-            </div>
-
-            <div className="w-full h-[60px] bg-[url('/assets/border-pattern.png')] bg-repeat-x bg-[length:auto_100%] mt-8 opacity-90">
             </div>
         </section>
     );
