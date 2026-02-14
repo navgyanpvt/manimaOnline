@@ -34,9 +34,9 @@ export default async function middleware(request: NextRequest) {
     // 2. Site Gating Logic (Mahashivratri Countdown)
     // ---------------------------------------------------------
 
-    // Target time: Feb 15, 2026, 06:00:00 IST
-    // ISO string for IST (UTC+5:30) is 2026-02-15T06:00:00+05:30
-    const targetDate = new Date('2026-02-15T06:00:00+05:30');
+    // Target time: Feb 14, 2026, 23:31:36 IST (3 minutes from now)
+    // ISO string for IST (UTC+5:30) is 2026-02-14T23:31:36+05:30
+    const targetDate = new Date('2026-02-14T23:31:36+05:30');
     const now = new Date();
 
     // If we are PAST the target date, ensure we don't get stuck on /countdown
