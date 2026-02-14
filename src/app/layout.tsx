@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Cinzel } from "next/font/google";
+import { Inter, Cinzel, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,6 +10,13 @@ const inter = Inter({
 const cinzel = Cinzel({
   variable: "--font-heading",
   subsets: ["latin"],
+});
+
+const dmSerifDisplay = DM_Serif_Display({
+  variable: "--font-dm-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: "normal",
 });
 
 export const metadata: Metadata = {
@@ -30,8 +37,6 @@ export const metadata: Metadata = {
 
 import MainLayout from "@/components/MainLayout";
 
-// ... (Metadata export remains)
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -40,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${cinzel.variable} antialiased`}
+        className={`${inter.variable} ${cinzel.variable} ${dmSerifDisplay.variable} antialiased`}
       >
         <MainLayout>
           {children}
