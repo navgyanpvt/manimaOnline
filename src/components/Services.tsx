@@ -81,7 +81,7 @@ const Services = ({ onServiceClick }: ServicesProps) => {
         <section id="Services" className="bg-[#FDFAF0] relative py-12 scroll-mt-20">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-8">
-                    <h2 className="text-[#2C3E50] text-2xl font-serif font-bold tracking-wide uppercase relative inline-block">
+                    <h2 className="text-[#2C3E50] text-4xl font-serif font-bold tracking-wide uppercase relative inline-block">
                         Featured Services
                         <span className="block h-1 w-12 bg-[#DAA520] mx-auto mt-2 rounded-full"></span>
                     </h2>

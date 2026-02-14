@@ -1,43 +1,80 @@
 import React from 'react';
-// import './WhyChooseUs.css'; // Removed custom CSS
-import { ShieldCheck, Video, Heart, CreditCard } from 'lucide-react';
 
 const reasons = [
     {
-        icon: <ShieldCheck size={40} />,
+        id: 1,
         title: "Verified Vedic Pandits",
-        text: "Every puja is performed by experienced priests with complete devotion and traditional procedures."
+        text: "Every puja is performed by experienced priests with complete devotion and traditional procedures.",
+        color: "bg-[#DAA520]" // Gold
     },
     {
-        icon: <Video size={40} />,
+        id: 2,
         title: "Live Streaming Option",
-        text: "Watch the ritual happening live from anywhere in the world via Zoom/WhatsApp."
+        text: "Watch the ritual happening live from anywhere in the world via Zoom/WhatsApp.",
+        color: "bg-[#D35400]" // Saffron
     },
     {
-        icon: <Heart size={40} />,
+        id: 3,
         title: "100% Authentic Rituals",
-        text: "Every puja is performed by experienced priests with complete devotion and traditional procedures."
+        text: "Every puja is performed by experienced priests with complete devotion and traditional procedures.",
+        color: "bg-[#C0392B]" // Red
     },
     {
-        icon: <CreditCard size={40} />,
+        id: 4,
         title: "Secure Payment",
-        text: "Pay safely online. No hidden charges. 100% satisfaction guaranteed."
+        text: "Pay safely online. No hidden charges. 100% satisfaction guaranteed.",
+        color: "bg-[#566573]" // Blue Grey
     }
 ];
 
 const WhyChooseUs = () => {
     return (
-        <section className="py-16 bg-[#fcfaf0] text-center bg-cover bg-center">
-            <div className="container mx-auto px-6">
-                <h2 className="text-3xl font-bold text-gray-800 mb-12">Why Choose Us</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mt-12">
-                    {reasons.map((reason, index) => (
-                        <div key={index} className="p-6 bg-white/60 backdrop-blur-md border border-white/40 rounded-2xl shadow-xl hover:bg-white/80 transition-all duration-300">
-                            <div className="inline-block p-4 bg-orange-100/50 rounded-full text-orange-600 mb-6">{reason.icon}</div>
-                            <div className="text-xl mb-3 text-gray-800 font-semibold">{reason.title}</div>
-                            <p className="text-gray-600 text-[0.95rem]">{reason.text}</p>
-                        </div>
-                    ))}
+        <section className="flex flex-col lg:flex-row min-h-[600px] w-full m-0">
+            {/* Left Side - Dark with Image Background */}
+            <div
+                className="w-full lg:w-5/12 text-[#FDFAF0] flex flex-col justify-center p-10 lg:p-20 relative overflow-hidden bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: "url('/assets/whychooseus.jpeg')" }}
+            >
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-[#D35400]/45 z-0"></div>
+
+                <div className="relative z-10">
+                    <h2 className="text-5xl lg:text-7xl font-serif font-bold leading-tight mb-6">
+                        Why <br />
+                        Choose <br />
+                        Us?
+                    </h2>
+                </div>
+
+                {/* Decorative background element - kept but subtle under overlay */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl z-0"></div>
+            </div>
+
+            {/* Right Side - White with List */}
+            <div className="w-full lg:w-7/12 bg-white flex flex-col justify-center p-8 lg:p-20">
+                <div className="max-w-xl">
+                    <div className="space-y-10">
+                        {reasons.map((reason) => (
+                            <div key={reason.id} className="relative pl-24 group">
+                                {/* Number Circle */}
+                                <div
+                                    className="absolute left-0 top-0 w-16 h-16 bg-white text-black border-4 border-[#D35400] rounded-full flex items-center justify-center text-2xl font-bold shadow-lg group-hover:scale-110 transition-transform duration-300 z-10"
+                                >
+                                    {reason.id}
+                                </div>
+
+                                {/* Content */}
+                                <div className="pt-1">
+                                    <h3 className="text-xl font-bold text-[#2C3E50] mb-2 group-hover:text-[#D35400] transition-colors">
+                                        {reason.title}
+                                    </h3>
+                                    <p className="text-[#566573] leading-relaxed text-[0.95rem]">
+                                        {reason.text}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
