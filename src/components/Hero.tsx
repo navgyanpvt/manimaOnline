@@ -1,6 +1,7 @@
 "use client";
-import React, { useState, useLayoutEffect, useRef } from "react";
+import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
 import PujaModal from "./PujaModal";
+import { X } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -12,6 +13,17 @@ const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
   const placeholderRef = useRef<HTMLDivElement>(null);
+  const [showAd, setShowAd] = useState(false);
+
+  useEffect(() => {
+    // Current time: 2026-02-15T05:01:21+05:30
+    // Expiry: 24 hours from 2026-02-15T05:01:03+05:30
+    const now = Date.now();
+    const expiry = new Date("2026-02-16T05:01:03+05:30").getTime();
+    if (now < expiry) {
+      setShowAd(true);
+    }
+  }, []);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -143,6 +155,27 @@ const Hero = () => {
       </div>
 
       <PujaModal isOpen={openModal} onClose={() => setOpenModal(false)} />
+
+      {/* Popup Ad */}
+      {showAd && (
+        <div className="fixed inset-0 z-1000 flex items-center justify-center bg-black/80 p-4 transition-opacity duration-300">
+          <div className="relative group">
+            <button
+              onClick={() => setShowAd(false)}
+              className="absolute top-4 right-4 z-1010 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white p-1.5 rounded-full transition-all duration-300 hover:scale-110 border border-white/30"
+              aria-label="Close ad"
+            >
+              <X size={24} />
+            </button>
+            <img
+              src="/assets/coupon_ad.png"
+              alt="Special Offer"
+              className="max-w-[85vw] md:max-w-[400px] lg:max-w-[450px] max-h-[80vh] h-auto object-contain shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-lg"
+            />
+
+          </div>
+        </div>
+      )}
     </section>
   );
 };
