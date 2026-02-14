@@ -28,7 +28,7 @@ const Services = ({ onServiceClick }: ServicesProps) => {
                 name: 'Puja for Special Occasions',
                 details: 'Perform authentic Vedic Pujas with experienced Pandits.',
                 link: '/pujas',
-                image: '/assets/special_puja.png'
+                image: '/assets/special_puja.jpeg'
             };
 
             const asthiVisarjan: Service = {
@@ -36,7 +36,7 @@ const Services = ({ onServiceClick }: ServicesProps) => {
                 name: 'Online Asthi Visarjan',
                 details: 'Perform Asthi Visarjan rituals remotely.',
                 comingSoon: true,
-                image: '/assets/asthi_visarjan.png'
+                image: '/assets/asthi_visarjan.jpeg'
             };
 
             const pindDaan: Service = {
@@ -44,7 +44,7 @@ const Services = ({ onServiceClick }: ServicesProps) => {
                 name: 'Online Pind Daan',
                 details: 'Perform Pind Daan for your ancestors.',
                 comingSoon: true,
-                image: '/assets/pind_daan_websiteimg.png'
+                image: '/assets/pind_daan_websiteimg.jpeg'
             };
 
             const bookPandit: Service = {
@@ -52,7 +52,7 @@ const Services = ({ onServiceClick }: ServicesProps) => {
                 name: 'Book a Pandit',
                 details: 'Connect with knowledgeable Pandits.',
                 comingSoon: true,
-                image: '/assets/book_pandit.png'
+                image: '/assets/book_pandit.jpeg'
             };
 
             let apiServices: Service[] = [];
@@ -152,11 +152,11 @@ const Services = ({ onServiceClick }: ServicesProps) => {
                     <div className="w-full text-center py-10 text-gray-400">No services available.</div>
                 )}
 
-                <div className="text-center mt-8">
+                {/* <div className="text-center mt-8">
                     <Link href="/services" className="inline-block p-3 bg-[#D35400] text-white rounded-full hover:bg-[#E67E22] transition-colors duration-300 shadow-lg group">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down group-hover:translate-y-1 transition-transform"><path d="m6 9 6 6 6-6" /></svg>
                     </Link>
-                </div>
+                </div> */}
             </div>
         </section>
     );

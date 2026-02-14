@@ -27,15 +27,15 @@ const reasons = [
 
 const WhyChooseUs = () => {
     return (
-        <section className="py-16 bg-white text-center">
+        <section className="py-16 bg-[#fcfaf0] text-center bg-cover bg-center">
             <div className="container mx-auto px-6">
-                <h2 className="section-title">Why Choosing Us</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-12">Why Choose Us</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mt-12">
                     {reasons.map((reason, index) => (
-                        <div key={index} className="p-4">
-                            <div className="inline-block p-4 bg-[#FDFAF0] rounded-full text-[#D35400] mb-6">{reason.icon}</div>
-                            <div className="text-xl mb-3 text-[#2C3E50] font-bold">{reason.title}</div>
-                            <p className="text-[#566573] text-[0.95rem]">{reason.text}</p>
+                        <div key={index} className="p-6 bg-white/60 backdrop-blur-md border border-white/40 rounded-2xl shadow-xl hover:bg-white/80 transition-all duration-300">
+                            <div className="inline-block p-4 bg-orange-100/50 rounded-full text-orange-600 mb-6">{reason.icon}</div>
+                            <div className="text-xl mb-3 text-gray-800 font-semibold">{reason.title}</div>
+                            <p className="text-gray-600 text-[0.95rem]">{reason.text}</p>
                         </div>
                     ))}
                 </div>
