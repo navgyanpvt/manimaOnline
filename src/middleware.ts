@@ -36,7 +36,7 @@ export default async function middleware(request: NextRequest) {
 
     // Target time: Feb 14, 2026, 23:31:36 IST (3 minutes from now)
     // ISO string for IST (UTC+5:30) is 2026-02-14T23:31:36+05:30
-    const targetDate = new Date('2026-02-14T23:31:36+05:30');
+    const targetDate = new Date('2026-02-15T02:20:00+05:30');
     const now = new Date();
 
     // If we are PAST the target date, ensure we don't get stuck on /countdown
