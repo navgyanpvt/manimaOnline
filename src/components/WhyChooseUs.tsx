@@ -6,7 +6,7 @@ const reasons = [
     {
         icon: <ShieldCheck size={40} />,
         title: "Verified Vedic Pandits",
-        text: "All our priests are registered with the Mukti Mandap of Puri and are highly experienced."
+        text: "Every puja is performed by experienced priests with complete devotion and traditional procedures."
     },
     {
         icon: <Video size={40} />,
@@ -15,8 +15,8 @@ const reasons = [
     },
     {
         icon: <Heart size={40} />,
-        title: "100% Odia Vidhi",
-        text: "We strictly follow the scriptures and traditions of the Jagannath culture."
+        title: "100% Authentic Rituals",
+        text: "Every puja is performed by experienced priests with complete devotion and traditional procedures."
     },
     {
         icon: <CreditCard size={40} />,

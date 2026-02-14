@@ -1,22 +1,22 @@
 import React from 'react';
 // import './ProcessFlow.css'; // Removed custom CSS
-import { Calendar, Video, FileCheck } from 'lucide-react';
+
 
 const steps = [
     {
-        icon: <Calendar size={48} />,
-        title: "Select Ritual & Date",
-        description: "Choose from our Basic, Special, or Annual Pinda Daan packages and pick a convenient date."
+        icon: <img src="/assets/puja.png" alt="Select Your Puja" width={48} height={48} />,
+        title: "Select Your Puja",
+        description: "Select the puja or ritual that feels right for you from our curated list of temples and services."
     },
     {
-        icon: <Video size={48} />,
-        title: "Priest Performs Ritual",
-        description: "Our authentic Odia verified pandits perform the ritual at Swargadwar or Baitarani. Live streaming available."
+        icon: <img src="/assets/booking.png" alt="Book with Ease" width={48} height={48} />,
+        title: "Book with Ease",
+        description: "Enter your details and complete your booking through our secure payment process."
     },
     {
-        icon: <FileCheck size={48} />,
-        title: "Receive Video & Photos",
-        description: "Get a complete high-quality recording and photos of the ceremony shared directly to your WhatsApp."
+        icon: <img src="/assets/bless.png" alt="Receive Divine Blessings" width={48} height={48} />,
+        title: "Receive Divine Blessings",
+        description: "Our trusted priests perform the puja on your behalf and blessings reach you with confirmation updates."
     }
 ];
 
