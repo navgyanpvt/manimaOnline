@@ -17,7 +17,7 @@ const CountdownPage = () => {
         const calculateTimeLeft = () => {
             const now = new Date();
             // Fixed target: Feb 14, 2026, 23:31:36 IST
-            const target = new Date('2026-02-15T02:20:00+05:30');
+            const target = new Date('2026-02-15T02:30:00+05:30');
 
             const difference = target.getTime() - now.getTime();
 
