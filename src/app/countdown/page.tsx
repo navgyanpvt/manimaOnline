@@ -16,17 +16,10 @@ const CountdownPage = () => {
 
         const calculateTimeLeft = () => {
             const now = new Date();
-            const tomorrow = new Date();
-            tomorrow.setDate(now.getDate() + 1);
-            tomorrow.setHours(6, 0, 0, 0);
+            // Fixed target: Feb 15, 2026, 06:00:00 IST
+            const target = new Date('2026-02-15T06:00:00+05:30');
 
-            const difference = tomorrow.getTime() - now.getTime();
-
-            // If it's already past 6 AM tomorrow (shouldn't happen with +1 day logic unless date shift is weird, 
-            // but let's say if we want "next 6 AM" logic)
-            // The requirement is "tomorrow 6 Am". 
-            // If I run this today at 2 PM, tomorrow 6 AM is correct.
-            // If I run this today at 8 AM, tomorrow 6 AM is correct.
+            const difference = target.getTime() - now.getTime();
 
             if (difference > 0) {
                 return {
@@ -34,6 +27,10 @@ const CountdownPage = () => {
                     minutes: Math.floor((difference / 1000 / 60) % 60),
                     seconds: Math.floor((difference / 1000) % 60),
                 };
+            }
+            // If difference <= 0, we should reload the page to let middleware handle the redirection
+            if (difference <= 0 && isMounted) {
+                window.location.reload();
             }
             return { hours: 0, minutes: 0, seconds: 0 };
         };
@@ -63,14 +60,18 @@ const CountdownPage = () => {
                 <div className="space-y-4">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 text-sm font-medium animate-pulse">
                         <Clock className="w-4 h-4" />
-                        <span>Launch Imminent</span>
+                        <span>Upcoming</span>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter bg-gradient-to-b from-white to-neutral-500 bg-clip-text text-transparent">
-                        Something Amazing <br /> is Coming
+                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter bg-gradient-to-b from-orange-400 to-orange-600 bg-clip-text text-transparent">
+                        Happy <br /> Mahashivratri
                     </h1>
                     <p className="text-lg md:text-xl text-neutral-400 max-w-lg mx-auto">
-                        We are preparing something special for you. Stay tuned for the big
-                        reveal tomorrow at 6:00 AM.
+                        "For Every Ritual That Matters." <br />
+                        Perform sacred rituals with authenticity and devotion. <br />
+                        Connecting you with your roots.
+                    </p>
+                    <p className="text-md text-neutral-500 max-w-lg mx-auto mt-4">
+                        We are launching our full experience tomorrow at 6:00 AM.
                     </p>
                 </div>
 
