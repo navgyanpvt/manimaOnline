@@ -71,10 +71,8 @@ const CouponStack = () => {
     }, [coupons]);
 
     const handleCouponClick = (coupon: Coupon) => {
-        // Navigate to /pujas with matching filters
-        // Logic: "filter=lord-shiva&type=temple"
-        // We'll hardcode this behavior as requested for "that coupon" (generic logic for all ad coupons for now)
-        router.push("/pujas?filter=Lord%20Shiva&type=Temple");
+        // Navigate to /pujas without filters as requested
+        router.push("/pujas");
         removeCoupon(coupon._id);
     };
 
