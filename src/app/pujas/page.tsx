@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Search, MapPin, Filter, X, Check, ArrowRight, Loader2, ShieldCheck, IndianRupee, ArrowLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -20,7 +20,7 @@ interface Puja {
     packages: Package[];
 }
 
-export default function PujaServicePage() {
+function PujaServicesContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [pujas, setPujas] = useState<Puja[]>([]);
@@ -42,14 +42,6 @@ export default function PujaServicePage() {
         const typeParam = searchParams.get('type');
 
         if (filterParam) {
-            // "Lord Shiva" filter - if it's not a location, strictly it might just be ignored or matched if we had a deity field
-            // But user said "filter=lord-shiva", let's assume it maps to something or just sets the location if applicable
-            // For now, if "Lord Shiva" is not a location, we might need to filter by name? 
-            // The current filter logic only checks location and templeType.
-            // Let's assume for now it might be a location or just generic. 
-            // However, the user request says "/pujas with lord shiva filter in temple type open".
-            // So "filter" might actually be ignored if it's just "Lord Shiva" and we don't have that location.
-            // But "type=Temple" should work.
             if (filterParam !== 'Lord Shiva') setLocationFilter(filterParam);
         }
         if (typeParam) {
@@ -77,17 +69,9 @@ export default function PujaServicePage() {
     const uniqueTempleTypes = Array.from(new Set(pujas.map((p) => p.templeType)));
 
     // Filtered Data
-    // Filtered Data
     const filteredPujas = pujas.filter((p) => {
         const matchesLocation = locationFilter ? p.location === locationFilter : true;
         const matchesType = templeTypeFilter ? p.templeType === templeTypeFilter : true;
-
-        // Special case for "Lord Shiva" from URL param if we stored it in valid state
-        // Since we only have locationFilter state, we might need another state or just reuse it?
-        // Actually, let's keep it simple. If the user passes ?filter=Lord Shiva, we might want to check the Name?
-        // But the previous Step I said `setLocationFilter` only if NOT Lord Shiva.
-        // Let's stick to the request "filter in temple type open".
-
         return matchesLocation && matchesType;
     });
 
@@ -365,5 +349,17 @@ export default function PujaServicePage() {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function PujaServicePage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-[#FDFAF5]">
+                <Loader2 className="animate-spin text-[#D35400] w-12 h-12" />
+            </div>
+        }>
+            <PujaServicesContent />
+        </Suspense>
     );
 }
