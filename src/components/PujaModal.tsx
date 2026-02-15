@@ -302,7 +302,14 @@ const PujaModal: React.FC<PujaModalProps> = ({ isOpen, onClose }) => {
                                                     {services.map(service => (
                                                         <option key={service._id} value={service.name}>{service.name}</option>
                                                     ))}
-                                                    <option value="Puja">Puja</option>
+                                                    <option value="Puja for Special Occasions">Puja for Special Occasions</option>
+                                                    <option value="Online Asthi Visarjan">Online Asthi Visarjan</option>
+                                                    <option value="Online Pind Daan">Online Pind Daan</option>
+                                                    <option value="Book
+a
+Pandit">Book
+a
+Pandit</option>
                                                     <option value="Other">Other</option>
                                                 </select>
                                                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
@@ -312,7 +319,7 @@ const PujaModal: React.FC<PujaModalProps> = ({ isOpen, onClose }) => {
                                         </div>
 
                                         {/* Temple Selection - Shows only if 'Puja' is selected */}
-                                        {selectedCategory === 'Puja' && (
+                                        {selectedCategory === 'Puja for Special Occasions' && (
                                             <div className="space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
                                                 <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Select Temple</label>
                                                 <div className="relative">
