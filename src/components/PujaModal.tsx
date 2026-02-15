@@ -37,6 +37,8 @@ const PujaModal: React.FC<PujaModalProps> = ({ isOpen, onClose }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isBooked, setIsBooked] = useState(false);
     const [services, setServices] = useState<{ _id: string; name: string }[]>([]);
+    const [pujas, setPujas] = useState<{ _id: string; name: string }[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
 
     useEffect(() => {
         const fetchServices = async () => {
@@ -51,7 +53,22 @@ const PujaModal: React.FC<PujaModalProps> = ({ isOpen, onClose }) => {
             }
         };
 
+        const fetchPujas = async () => {
+            try {
+                const res = await fetch('/api/puja');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.success) {
+                        setPujas(data.data);
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to fetch pujas", error);
+            }
+        };
+
         fetchServices();
+        fetchPujas();
     }, []);
 
     // Check if user has already booked in this session
@@ -66,6 +83,23 @@ const PujaModal: React.FC<PujaModalProps> = ({ isOpen, onClose }) => {
 
     if (!isOpen && !showSuccess) return null;
 
+    const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const category = e.target.value;
+        setSelectedCategory(category);
+
+        // If category is NOT "Puja", use the category as the pujaType (unless it's empty)
+        if (category !== "Puja") {
+            setForm(prev => ({ ...prev, pujaType: category }));
+        } else {
+            // If "Puja" is selected, clear the pujaType so user is forced to select a specific temple
+            setForm(prev => ({ ...prev, pujaType: "" }));
+        }
+
+        if (errors.pujaType) {
+            setErrors({ ...errors, pujaType: undefined });
+        }
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
         if (errors[e.target.name as keyof Errors]) {
@@ -78,7 +112,15 @@ const PujaModal: React.FC<PujaModalProps> = ({ isOpen, onClose }) => {
         if (!form.name || form.name.length < 3) newErrors.name = "Please enter your full name";
         if (!/^[6-9]\d{9}$/.test(form.phone)) newErrors.phone = "Enter a valid 10-digit mobile number";
         if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) newErrors.email = "Enter a valid email address";
-        if (!form.pujaType) newErrors.pujaType = "Please select a puja type";
+
+        if (!selectedCategory) {
+            newErrors.pujaType = "Please select a service type";
+        } else if (selectedCategory === "Puja" && !form.pujaType) {
+            newErrors.pujaType = "Please select a temple";
+        } else if (!form.pujaType) {
+            newErrors.pujaType = "Please select a service";
+        }
+
         return newErrors;
     };
 
@@ -107,6 +149,7 @@ const PujaModal: React.FC<PujaModalProps> = ({ isOpen, onClose }) => {
                 setShowSuccess(true);
                 onClose();
                 setForm({ name: "", phone: "", email: "", pujaType: "", message: "" });
+                setSelectedCategory("");
             } else {
                 setErrors({ name: "Failed to submit request. Please try again." });
             }
@@ -242,7 +285,7 @@ const PujaModal: React.FC<PujaModalProps> = ({ isOpen, onClose }) => {
                                             {errors.email && <p className="text-red-500 text-[10px] mt-1">{errors.email}</p>}
                                         </div>
 
-                                        {/* Puja Type Select */}
+                                        {/* Service Type Select */}
                                         <div className="space-y-1">
                                             <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Service Type</label>
                                             <div className="relative">
@@ -250,23 +293,60 @@ const PujaModal: React.FC<PujaModalProps> = ({ isOpen, onClose }) => {
                                                     <ScrollText size={16} />
                                                 </div>
                                                 <select
-                                                    name="pujaType"
-                                                    value={form.pujaType}
-                                                    onChange={handleChange}
+                                                    name="category"
+                                                    value={selectedCategory}
+                                                    onChange={handleCategoryChange}
                                                     className={`w-full pl-9 pr-8 py-2.5 bg-gray-50 border ${errors.pujaType ? 'border-red-500' : 'border-gray-200 focus:border-[#D35400] focus:ring-1 focus:ring-[#D35400]'} rounded-lg outline-none appearance-none transition-all text-gray-900 text-sm`}
                                                 >
                                                     <option value="">Select Service...</option>
                                                     {services.map(service => (
                                                         <option key={service._id} value={service.name}>{service.name}</option>
                                                     ))}
+                                                    <option value="Puja for Special Occasions">Puja for Special Occasions</option>
+                                                    <option value="Online Asthi Visarjan">Online Asthi Visarjan</option>
+                                                    <option value="Online Pind Daan">Online Pind Daan</option>
+                                                    <option value="Book
+a
+Pandit">Book
+a
+Pandit</option>
                                                     <option value="Other">Other</option>
                                                 </select>
                                                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
                                                     <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
                                                 </div>
                                             </div>
-                                            {errors.pujaType && <p className="text-red-500 text-[10px] mt-1">{errors.pujaType}</p>}
                                         </div>
+
+                                        {/* Temple Selection - Shows only if 'Puja' is selected */}
+                                        {selectedCategory === 'Puja for Special Occasions' && (
+                                            <div className="space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Select Temple</label>
+                                                <div className="relative">
+                                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                                        <ScrollText size={16} />
+                                                    </div>
+                                                    <select
+                                                        name="pujaType"
+                                                        value={form.pujaType}
+                                                        onChange={handleChange}
+                                                        className={`w-full pl-9 pr-8 py-2.5 bg-gray-50 border ${errors.pujaType ? 'border-red-500' : 'border-gray-200 focus:border-[#D35400] focus:ring-1 focus:ring-[#D35400]'} rounded-lg outline-none appearance-none transition-all text-gray-900 text-sm`}
+                                                    >
+                                                        <option value="">Select Temple...</option>
+                                                        {pujas.map(puja => (
+                                                            <option key={puja._id} value={puja.name}>{puja.name}</option>
+                                                        ))}
+                                                    </select>
+                                                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
+                                                        <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
+                                                    </div>
+                                                </div>
+                                                {errors.pujaType && <p className="text-red-500 text-[10px] mt-1">{errors.pujaType}</p>}
+                                            </div>
+                                        )}
+
+                                        {/* Error message for Service Type if needed */}
+                                        {errors.pujaType && selectedCategory !== 'Puja' && <p className="text-red-500 text-[10px] mt-1">{errors.pujaType}</p>}
 
                                         {/* Message Textarea */}
                                         <div className="space-y-1">

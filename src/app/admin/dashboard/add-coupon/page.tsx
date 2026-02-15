@@ -11,7 +11,8 @@ export default function AddCoupon() {
         discountType: "PERCENTAGE", // 'PERCENTAGE' | 'FLAT'
         discountValue: "",
         minOrderValue: "",
-        isActive: true
+        isActive: true,
+        adImage: ""
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -61,7 +62,8 @@ export default function AddCoupon() {
                 discountType: "PERCENTAGE",
                 discountValue: "",
                 minOrderValue: "",
-                isActive: true
+                isActive: true,
+                adImage: ""
             });
             // Redirect to coupons list after short delay 
             setTimeout(() => router.push('/admin/dashboard/coupons'), 1500);
@@ -170,6 +172,20 @@ export default function AddCoupon() {
                         placeholder="Leave empty for no minimum (0)"
                     />
                     <p className="text-xs text-gray-500 mt-1">If left empty, it will default to 0 (no minimum required).</p>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Ad Image URL (Optional)</label>
+                    <input
+                        type="text"
+                        name="adImage"
+                        // @ts-ignore
+                        value={formData.adImage}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-manima-gold/20 focus:border-manima-gold outline-none transition-colors"
+                        placeholder="e.g. /assets/coupon_ad.png"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Provide a URL for the coupon advertisement image.</p>
                 </div>
 
                 <div className="flex items-center gap-2">

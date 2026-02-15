@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Search, MapPin, Filter, X, Check, ArrowRight, Loader2, ShieldCheck, IndianRupee, ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // Interface matches the API response structure
 interface Package {
@@ -20,8 +20,9 @@ interface Puja {
     packages: Package[];
 }
 
-export default function PujaServicePage() {
+function PujaServicesContent() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [pujas, setPujas] = useState<Puja[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedPuja, setSelectedPuja] = useState<Puja | null>(null);
@@ -35,7 +36,18 @@ export default function PujaServicePage() {
 
     useEffect(() => {
         fetchPujas();
-    }, []);
+
+        // Handle URL params
+        const filterParam = searchParams.get('filter');
+        const typeParam = searchParams.get('type');
+
+        if (filterParam) {
+            if (filterParam !== 'Lord Shiva') setLocationFilter(filterParam);
+        }
+        if (typeParam) {
+            setTempleTypeFilter(typeParam);
+        }
+    }, [searchParams]);
 
     const fetchPujas = async () => {
         try {
@@ -337,5 +349,17 @@ export default function PujaServicePage() {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function PujaServicePage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-[#FDFAF5]">
+                <Loader2 className="animate-spin text-[#D35400] w-12 h-12" />
+            </div>
+        }>
+            <PujaServicesContent />
+        </Suspense>
     );
 }

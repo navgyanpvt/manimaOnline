@@ -7,6 +7,7 @@ export interface ICoupon extends Document {
     minOrderValue: number;
     isActive: boolean;
     createdAt: Date;
+    adImage?: string;
 }
 
 const CouponSchema: Schema = new Schema({
@@ -38,6 +39,10 @@ const CouponSchema: Schema = new Schema({
         type: Date,
         default: Date.now,
     },
+    adImage: {
+        type: String, // Store image URL
+        required: false
+    }
 });
 
 const Coupon: Model<ICoupon> = mongoose.models.Coupon || mongoose.model<ICoupon>("Coupon", CouponSchema);
