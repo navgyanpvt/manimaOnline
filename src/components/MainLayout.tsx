@@ -6,6 +6,7 @@ import Header from './Header';
 import Footer from './Footer';
 import PujaModal from './PujaModal';
 import Loader from './Loader';
+import CouponStack from './CouponStack';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     const [openPujaModal, setOpenPujaModal] = useState(false);
@@ -39,11 +40,13 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 <Footer onOpenPuja={() => setOpenPujaModal(true)} />
             </div>
 
-            {/* GLOBAL MODAL */}
             <PujaModal
                 isOpen={openPujaModal}
                 onClose={() => setOpenPujaModal(false)}
             />
+
+            {/* GLOBAL COUPON NOTIFICATIONS */}
+            <CouponStack />
         </div>
     );
 };
