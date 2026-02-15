@@ -20,7 +20,7 @@ const dmSerifDisplay = DM_Serif_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Manima - Authentic Pinda Daana & Puja Services",
+  title: "Manima - For Every Ritual That Matters",
   description: "Perform sacred Pinda Daana and Puja rituals at Puri, Varanasi, Gaya, and more with verified pandits.",
   icons: {
     icon: [
